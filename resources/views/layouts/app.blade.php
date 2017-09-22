@@ -84,7 +84,7 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="">
+                                        <a href="{{ route('account.settings') }}">
                                             <span class="fa fa-cogs" aria-hidden="true"></span> Instellingen
                                         </a>
                                     </li>

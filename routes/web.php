@@ -14,3 +14,5 @@ Auth::routes();
 
 Route::get('/', 'HomeController@frontend')->name('root');
 Route::get('/home', 'HomeController@backend')->name('home');
+
+Route::get('/account', 'AccountController@index')->name('account.settings');

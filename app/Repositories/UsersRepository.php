@@ -22,4 +22,15 @@ class UsersRepository extends Repository
     {
         return User::class;
     }
+
+    /**
+     * Check if the authencated user has the permission to delete and account.
+     *
+     * @param  array $user
+     * @return bool
+     */
+    public function cannotDeleteUser($user)
+    {
+        return $user->id === auth()->user()->id || auth()->user()->hasRole('admin');
+    }
 }

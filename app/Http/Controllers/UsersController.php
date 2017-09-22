@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
  */
 class UsersController extends Controller
 {
+    // TODO: Register routes for the controller functions.
+
     /**
      * The variable for the database abstraction layer.
      *
@@ -29,6 +31,7 @@ class UsersController extends Controller
     public function __construct(UsersRepository $usersRepository)
     {
         $this->middleware('auth');
+        $this->middleware('role:admin')->except(['destroy']);
 
         $this->usersRepository = $usersRepository;
     }
@@ -85,6 +88,27 @@ class UsersController extends Controller
             case ($user->isNotBanned()):
                 flash('Wij konden de gebruiker niet activeren.')->warning();
                 break;
+        }
+
+        return redirect()->route('users.index');
+    }
+
+    /**
+     * Delete a user account in the system.
+     *
+     * @param  integer $userId The unique identifier in the database for the account.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($userId)
+    {
+        $user = $this->usersRepository->find($userId);
+
+        if ($this->usersRepository->cannotDeleteUser($user)) {
+            return back(302); //User is not permitted to delete an account.
+        }
+
+        if ($this->usersRepository->delete($user->id)) {
+            flash("Het ccount van {$user->name} is verwjderd.")->success();
         }
 
         return redirect()->route('users.index');
