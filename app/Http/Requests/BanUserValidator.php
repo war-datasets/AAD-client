@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property mixed end_date
+ * @property mixed reason
+ */
 class BanUserValidator extends FormRequest
 {
     /**
@@ -13,7 +17,7 @@ class BanUserValidator extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +28,8 @@ class BanUserValidator extends FormRequest
     public function rules()
     {
         return [
-            //
+            'end_date' => 'required',
+            'reason'   => 'required'
         ];
     }
 }

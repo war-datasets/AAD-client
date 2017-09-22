@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BanUserValidator;
 use App\Repositories\UsersRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
@@ -39,18 +40,53 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = $this->usersRepository->all(['name', 'email', 'created_at']);
-        return view('users.index', compact('users'));
+        return view('users.index', [
+            'users' => $this->usersRepository->all('name', 'email', 'created_at')
+        ]);
     }
 
+    /**
+     * Ban some user account in the system.
+     *
+     * @param  BanUserValidator $input
+     * @param  Integer $userId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function block(BanUserValidator $input, $userId)
     {
-        // STEPS:
-        // ---
-        // 1) Save the ban in the database.
-        // 2) Send mail as information for the affected user.
-        // 3) Log out the current is he is online.
-        // 4) Deny access to api keys.
+        $user = $this->usersRepository->find($userId);
 
+        if (auth()->user()->id === $user->id) { // The given user is the currently authencated user.
+            flash('Je kan jezelf helaas niet blokkeren.')->warning();
+            return redirect()->route('users.index');
+        }
+
+        $user->ban(['comment' => $input->reason, 'expired_at' => Carbon::parse($input->eind_datum)]);
+        flash("{$user->name} is geblokkeerd tot {$input->end_date}.")->success();
+
+        return redirect()->route('users.index');
+    }
+
+    /**
+     * Unban an user account
+     *
+     * @param  integer $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function unblock($userId)
+    {
+        $user = $this->usersRepository->find($userId);
+
+        switch ($user) {
+            case ($user->isBanned()):
+                $user->unban(); // Unban the user in the system
+                flash('De gebruiker is terug geactiveerd')->success();
+                break;
+            case ($user->isNotBanned()):
+                flash('Wij konden de gebruiker niet activeren.')->warning();
+                break;
+        }
+
+        return redirect()->route('users.index');
     }
 }

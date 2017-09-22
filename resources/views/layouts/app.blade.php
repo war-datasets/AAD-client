@@ -109,7 +109,8 @@
         @yield('content')
     </div>
 
-    <!-- Scripts -->
+    {{-- Scripts --}}
+    <script>$('div.alert').not('.alert-important').delay(3000).fadeOut(350);</script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
