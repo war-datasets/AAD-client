@@ -167,6 +167,8 @@ return [
         /*
          * Package Service Providers...
          */
+        ActivismeBE\DatabaseLayering\Repositories\Providers\RepositoryProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -11,6 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+    <script src="https://use.fontawesome.com/e995c0a4f8.js"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -36,16 +37,46 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        @if (auth()->check()) {{-- There is an authencated user. --}}
+                            <li>
+                                <a href="">
+                                    <span class="fa fa-users" aria-hidden="true"></span> Gebruikers
+                                </a>
+                            </li>
+                        @endif
+
+                        <li>
+                            <a href="">
+                                <span class="fa fa-list" aria-hidden="true"></span> Namenlijst
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="">
+                                <span class="fa fa-newspaper-o" aria-hidden="true"></span> Nieuws
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="">
+                                <span class="fa fa-legal" aria-hidden="true"></span> Disclaimer
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}"><span class="fa fa-sign-in" aria-hidden="true"></span> Login</a></li>
+                            <li><a href="{{ route('register') }}"><span class="fa fa-plus" aria-hidden="true"></span> Register</a></li>
                         @else
+                            <li>
+                                <a href="">
+                                    <span class="fa fa-bell"></span>
+                                </a>
+                            </li>
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -53,10 +84,14 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
+                                        <a href="">
+                                            <span class="fa fa-cogs" aria-hidden="true"></span> Instellingen
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            <span class="fa fa-sign-out" aria-hidden="true"></span> Afmelden
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
