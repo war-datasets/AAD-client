@@ -16,3 +16,6 @@ Route::get('/', 'HomeController@frontend')->name('root');
 Route::get('/home', 'HomeController@backend')->name('home');
 
 Route::get('/account', 'AccountController@index')->name('account.settings');
+
+Route::post('/create/key', 'ApiKeyController@create')->name('api.key.create');
+Route::get('/delete/key/{id}', 'ApiKeyController@destroy')->name('api.key.delete');

@@ -40,7 +40,8 @@ class AccountController extends Controller
     public function index()
     {
         return view('account.index', [
-            'keys' => $this->apiKeyRepository->all(['id', 'service', 'key'])
+            'keys' => $this->apiKeyRepository->all(['id', 'service', 'key']),
+            'user' => $this->usersRepository->find(auth()->user()->id),
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Chrisbjr\ApiGuard\Models\Mixins\Apikeyable;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles, Bannable;
+    use Notifiable, HasRoles, Bannable, Apikeyable;
 
     /**
      * The attributes that are mass assignable.
