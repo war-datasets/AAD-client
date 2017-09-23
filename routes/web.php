@@ -32,3 +32,4 @@ Route::get('notifications/markall', ['as' => 'notifications.read.all', 'uses' =>
 
 // News routes
 Route::get('news', 'NewsController@index')->name('news.index');
+Route::get('news/create', 'NewsController@create')->name('news.create');

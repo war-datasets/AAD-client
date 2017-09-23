@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 /**
  * Class NotificationController
@@ -25,7 +27,7 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(): View
     {
         $userNotifications= auth()->user()->notifications();
 
@@ -35,7 +37,12 @@ class NotificationController extends Controller
         ]);
     }
 
-    public function markAllAsRead()
+    /**
+     * Mark all the unread notifications as read.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function markAllAsRead(): RedirectResponse
     {
         auth()->user()->unreadNotifications->markAsRead();
         return back(302);
