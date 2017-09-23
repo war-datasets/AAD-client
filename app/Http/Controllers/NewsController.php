@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\NewsValidator;
 use App\Repositories\{
     CategoryRepository, NewsRepository, UsersRepository
 };
+use Illuminate\View\View;
 
 /**
  * Class NewsController
@@ -38,7 +40,7 @@ class NewsController extends Controller
         $routes = ['show', 'index'];
 
         $this->middleware('auth')->except($routes);
-        // $this->middleware('') TODO; Implement middleware for admin access.
+        // $this->middleware('') TODO: Implement middleware for admin access.
         // $this->middleware('forbid-banned-user')->except($routes);
 
         $this->newsRepository       = $newsRepository;
@@ -53,9 +55,10 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(): View
     {
-        $messages   = $this->newsRepository->with(['author', 'categories'])->all();
+        $limit      = (auth()->check() && auth()->user()->hasRole('admin')) ? 20 : 5;
+        $messages   = $this->newsRepository->with(['author', 'categories'])->paginate($limit);
         $categories = $this->categoryRepository->findWhere(['module' => 'news'], ['id', 'name']);
 
         if (auth()->check() && $this->usersRepository->isAdmin()) {
@@ -73,7 +76,7 @@ class NewsController extends Controller
      * @param  integer $newsId The unique identifier in the database for the news message.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($newsId)
+    public function show($newsId): View
     {
         return view('news.show', [
             'message' => $this->newsRepository->with(['author', 'categories'])->find($newsId)
@@ -85,7 +88,7 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(): View
     {
         return view('news.create', [
             'categories' => $this->categoryRepository->findWhere(['module' => 'news'], ['id', 'name'])
@@ -98,9 +101,24 @@ class NewsController extends Controller
      * @param  NewsValidator $input The user given input fields (validated).
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(NewsValidator $input)
+    public function store(NewsValidator $input): RedirectResponse
     {
+        $categories = explode(',', $input->categories); // Break up the text into an array
+
         if ($message = $this->newsRepository->create($input->except(['_token']))) {
+            if (! is_null($input->categories)) { // The categories are not empty so we need to find or store them.
+                foreach ($categories as $category) {
+                    // Loop through the given categories. If there found in the db. They will attached.
+                    // if not they will created and attached.
+
+                    $cat = $this->categoryRepository->entity()->firstOrCreate([
+                        'name' => trim($category), 'module' => 'news'
+                    ]);
+
+                    $this->newsRepository->find($message->id)->categories()->attach($cat->id);
+                }
+            }
+
             flash('Het nieuws bericht is toegevoegd')->success();
             return redirect()->route('news.show', $message);
         }
@@ -115,9 +133,11 @@ class NewsController extends Controller
      * @param  integer $newsId The unique identifier for the news message in the database.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($newsId)
+    public function edit($newsId): View
     {
-        // TODO: Write controller logic.
+        return view('news.edit', [
+            'message' => $this->newsRepository->find($newsId)
+        ]);
     }
 
     /**
@@ -127,7 +147,7 @@ class NewsController extends Controller
      * @param  String  $status The status name for the news message.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function status($newsId, $status)
+    public function status($newsId, $status): RedirectResponse
     {
         try {
             $message = $this->newsRepository->find($newsId);
@@ -154,7 +174,7 @@ class NewsController extends Controller
      * @param  Integer       $newsId The unique identifier from the news message in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(NewsValidator $input, $newsId)
+    public function update(NewsValidator $input, $newsId): RedirectResponse
     {
         $data = $input->except(['_token', 'categories']);
 
@@ -173,7 +193,7 @@ class NewsController extends Controller
      * @param  Integer $newsId The unique identifier from the news message in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($newsId)
+    public function destroy($newsId): RedirectResponse
     {
         // TODO: write controller logic.
     }

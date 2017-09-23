@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Jobs\MarkNotificationAsread;
 use Illuminate\Http\Request;
 
 /**

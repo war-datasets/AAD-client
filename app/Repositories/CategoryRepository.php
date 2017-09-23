@@ -22,4 +22,14 @@ class CategoryRepository extends Repository
     {
         return Categories::class;
     }
+
+    /**
+     * Create a base entity from the repository database model.
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function entity()
+    {
+        return $this->model;
+    }
 }
