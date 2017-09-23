@@ -51,8 +51,8 @@ class UsersController extends Controller
     /**
      * Ban some user account in the system.
      *
-     * @param  BanUserValidator $input
-     * @param  Integer $userId
+     * @param  BanUserValidator $input  The given user input (validated)
+     * @param  Integer          $userId The unique identifier from the user in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function block(BanUserValidator $input, $userId)
@@ -73,19 +73,20 @@ class UsersController extends Controller
     /**
      * Unban an user account
      *
-     * @param  integer $userId
+     * @param  Integer $userId The unique identifier from the user in the database.
      * @return \Illuminate\Http\Response
      */
     public function unblock($userId)
     {
         $user = $this->usersRepository->find($userId);
 
-        switch ($user) {
+        switch ($user) { // Determine the status from the given user.
             case ($user->isBanned()):
                 $user->unban(); // Unban the user in the system
                 flash('De gebruiker is terug geactiveerd')->success();
                 break;
             case ($user->isNotBanned()):
+                // User is not banned. Could not perform any action.
                 flash('Wij konden de gebruiker niet activeren.')->warning();
                 break;
         }
@@ -96,7 +97,7 @@ class UsersController extends Controller
     /**
      * Delete a user account in the system.
      *
-     * @param  integer $userId The unique identifier in the database for the account.
+     * @param  Integer $userId The unique identifier in the database for the account.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($userId)

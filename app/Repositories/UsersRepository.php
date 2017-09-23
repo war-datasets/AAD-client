@@ -33,4 +33,14 @@ class UsersRepository extends Repository
     {
         return $user->id === auth()->user()->id || auth()->user()->hasRole('admin');
     }
+
+    /**
+     * [Condition]: determine if the user is an admin.
+     *
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return auth()->user()->hasRole('admin');
+    }
 }

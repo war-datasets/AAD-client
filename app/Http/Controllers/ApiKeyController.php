@@ -34,7 +34,7 @@ class ApiKeyController extends Controller
     /**
      * Create a new API access token in the system.
      *
-     * @param  ApiKeyValidator $input
+     * @param  ApiKeyValidator $input The user given input (validated)
      * @return \Illuminate\Http\RedirectResponse
      */
     public function create(ApiKeyValidator $input)
@@ -50,7 +50,7 @@ class ApiKeyController extends Controller
     /**
      * Delete some API access token in the system.
      *
-     * @param  integer $keyId The primary identifier from the access token.
+     * @param  Integer $keyId The primary identifier from the access token.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($keyId)
