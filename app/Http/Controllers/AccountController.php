@@ -53,6 +53,9 @@ class AccountController extends Controller
      */
     public function updateInfo(AccountInfoValidator $input)
     {
+        // TODO: Implement method that allow to set/change user avatars.
+        // TODO: Register route and connect it to the form.
+
         if ($this->usersRepository->update($input->except(['_token']), auth()->user()->id)) {
             flash('Wij hebben uw account informatie aangepast.')->success();
         }
@@ -68,6 +71,9 @@ class AccountController extends Controller
      */
     public function updateSecurity(AccountSecurityValidator $input)
     {
+        // TODO: Implement update logic. (database)
+        // TODO: Register route and connect it to the form.
+
         return back(302);
     }
 }

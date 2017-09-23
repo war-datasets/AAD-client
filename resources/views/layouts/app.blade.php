@@ -90,6 +90,14 @@
                                     </li>
 
                                     <li>
+                                        <a href="">
+                                            <span class="fa fa-question"></span> Helpdesk
+                                        </a>
+                                    </li>
+
+                                    <li class="divider"></li>
+
+                                    <li>
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             <span class="fa fa-sign-out" aria-hidden="true"></span> Afmelden
                                         </a>
