@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\NewsValidator;
@@ -120,11 +121,30 @@ class NewsController extends Controller
     }
 
     /**
-     * @todo docblock
+     * Change the status for a news post.
+     *
+     * @param  Integer $newsId The unique identifier form the message in the database.
+     * @param  String  $status The status name for the news message.
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function status($newsId, $status)
     {
-        // TODO: write controller logic.
+        try {
+            $message = $this->newsRepository->find($newsId);
+
+            if ((string) $status === 'publish') {
+                $this->newsRepository->update(['is_published' => 'Y'], $message->id);
+                flash('Het nieuwsbericht is gepubliceerd.')->success();
+            } elseif ((string) $status === 'draft') {
+                $this->newsRepository->update(['is_published' => 'N'], $message->id);
+                flash('Het bericht is gezet naar een klad versie.')->success();
+            }
+
+            return redirect()->route('news.index');
+        } catch (ModelNotFoundException $exception) {
+            flash("Wij konden geen bericht vinden onder de opgegeven ID.")->error();
+            return redirect()->route('news.index');
+        }
     }
 
     /**
