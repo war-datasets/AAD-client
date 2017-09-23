@@ -117,7 +117,7 @@ class NewsController extends Controller
      */
     public function edit($newsId)
     {
-        // TODO: write controller logic.
+        // TODO: Write controller logic.
     }
 
     /**
@@ -156,7 +156,15 @@ class NewsController extends Controller
      */
     public function update(NewsValidator $input, $newsId)
     {
-        // TODO: write controller logic.
+        $data = $input->except(['_token', 'categories']);
+
+        if ($message = $this->newsRepository->update($data, $newsId)) {
+            flash('Het nieuwsbericht is aangepast.')->success();
+            return redirect()->route('news.show', $message);
+        }
+
+        flash("Wij konden geen nieuwsbericht met de opgegegevn id wijzigen.")->warning();
+        return redirect()->route('news.index');
     }
 
     /**
