@@ -20,6 +20,7 @@ Route::get('/home', 'HomeController@backend')->name('home');
 
 // Account routes
 Route::get('/account', 'AccountController@index')->name('account.settings');
+Route::post('/account/info', 'AccountController@updateInfo')->name('account.settings.info');
 
 // API access tokens
 Route::post('/create/key', 'ApiKeyController@create')->name('api.key.create');

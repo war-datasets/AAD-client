@@ -6,6 +6,7 @@ use App\Http\Requests\AccountInfoValidator;
 use App\Http\Requests\AccountSecurityValidator;
 use App\Repositories\ApiKeyRepository;
 use App\Repositories\UsersRepository;
+use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
 /**
@@ -54,13 +55,27 @@ class AccountController extends Controller
     public function updateInfo(AccountInfoValidator $input)
     {
         // TODO: Implement method that allow to set/change user avatars.
-        // TODO: Register route and connect it to the form.
 
-        if ($this->usersRepository->update($input->except(['_token']), auth()->user()->id)) {
+        if ($input->hasFile('avatar')) {
+            $avatar = public_path(auth()->user()->profile_image);
+
+            if (file_exists($avatar) && auth()->user()->profile_image != 'avatars/default.jpg') {
+                unlink(public_path(auth()->user()->profile_image));
+            }
+
+            $image      = $input->file('avatar');
+            $filename   = time() . '.' . $image->getClientOriginalExtension();
+            $path       = public_path('avatars/' . $filename);
+            Image::make($image->getRealPath())->resize(160, 160)->save($path);
+
+            $input->merge(['profile_image' => "avatars/{$filename}"]);
+        }
+
+        if ($this->usersRepository->update($input->except(['_token', 'avatar']), auth()->user()->id)) {
             flash('Wij hebben uw account informatie aangepast.')->success();
         }
 
-        return back(302);
+        return redirect()->route('account.settings');
     }
 
     /**
@@ -71,8 +86,11 @@ class AccountController extends Controller
      */
     public function updateSecurity(AccountSecurityValidator $input)
     {
-        // TODO: Implement update logic. (database)
-        // TODO: Register route and connect it to the form.
+        //  TODO: Register route and connect it to the form.
+
+        if ($this->usersRepository->update(['password' => bcrypt($input->password)])) {
+            flash("Wij hebben je account beveiliging aangepast.")->success();
+        }
 
         return back(302);
     }

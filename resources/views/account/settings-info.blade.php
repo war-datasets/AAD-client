@@ -4,7 +4,7 @@
     </div>
 
     <div class="panel-body">
-        <form action="" method="POST" class="form-horizontal">
+        <form action="{{ route('account.settings.info') }}" method="POST" class="form-horizontal" enctype="multipart/form-data">
             {{ csrf_field() }} {{-- CSRF Field protection --}}
 
             <div class="form-group">
@@ -14,6 +14,16 @@
 
                 <div class="col-md-9">
                     <input type="text" name="name" class="form-control" placeholder="Uw naam">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="avatar" class="control-label col-sm-3">
+                    Avatar: <!-- <span class="text-danger">*</span> -->
+                </label>
+
+                <div class="col-sm-9">
+                    <input type="file" class="form-control" name="avatar" id="avatar">
                 </div>
             </div>
 
