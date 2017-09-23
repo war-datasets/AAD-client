@@ -28,3 +28,6 @@ Route::get('/delete/key/{id}', 'ApiKeyController@destroy')->name('api.key.delete
 // Notifications
 Route::get('notifications', ['as' => 'notifications', 'uses' => 'NotificationController@index']);
 Route::get('notifications/markall', ['as' => 'notifications.read.all', 'uses' => 'NotificationController@markAllAsRead']);
+
+// News routes
+Route::get('news', 'NewsController@index')->name('news.index');

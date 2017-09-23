@@ -54,15 +54,16 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $messages = $this->newsRepository->with(['author'])->all();
+        $messages   = $this->newsRepository->with(['author', 'categories'])->all();
+        $categories = $this->categoryRepository->findWhere(['module' => 'news'], ['id', 'name']);
 
-        if ($this->usersRepository->isAdmin()) {
+        if (auth()->check() && $this->usersRepository->isAdmin()) {
             // Admin's get automatically the management view.
             // Because sometimes they need more functions than normal users.
             return view('news.admin', compact('messages'));
         }
 
-        return view('news.index', compact('messages'));
+        return view('news.index', compact('messages', 'categories'));
     }
 
     /**
@@ -74,7 +75,7 @@ class NewsController extends Controller
     public function show($newsId)
     {
         return view('news.show', [
-            'message' => $this->newsRepository->find($newsId)
+            'message' => $this->newsRepository->with(['author', 'categories'])->find($newsId)
         ]);
     }
 
@@ -86,9 +87,7 @@ class NewsController extends Controller
     public function create()
     {
         return view('news.create', [
-            'categories' => $this->categoryRepository->findWhere(
-                ['module' => 'news'], ['id', 'name']
-            )
+            'categories' => $this->categoryRepository->findWhere(['module' => 'news'], ['id', 'name'])
         ]);
     }
 
@@ -117,9 +116,12 @@ class NewsController extends Controller
      */
     public function edit($newsId)
     {
-        // TODO: wrtie controller logic.
+        // TODO: write controller logic.
     }
 
+    /**
+     * @todo docblock
+     */
     public function status($newsId, $status)
     {
         // TODO: write controller logic.

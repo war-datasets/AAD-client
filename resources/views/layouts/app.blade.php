@@ -52,7 +52,7 @@
                         </li>
 
                         <li>
-                            <a href="">
+                            <a href="{{ route('news.index') }}">
                                 <span class="fa fa-newspaper-o" aria-hidden="true"></span> Nieuws
                             </a>
                         </li>
