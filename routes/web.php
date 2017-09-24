@@ -14,6 +14,9 @@
 // Authencation routes
 Auth::routes();
 
+// Disclaimer routes
+Route::get('disclaimer', 'DisclaimerController@index')->name('disclaimer');
+
 // Home routes
 Route::get('/', 'HomeController@frontend')->name('root');
 Route::get('/home', 'HomeController@backend')->name('home');

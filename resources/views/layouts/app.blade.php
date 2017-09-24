@@ -64,7 +64,7 @@
                         </li>
 
                         <li>
-                            <a href="">
+                            <a href="{{ route('disclaimer') }}">
                                 <span class="fa fa-legal" aria-hidden="true"></span> Disclaimer
                             </a>
                         </li>
