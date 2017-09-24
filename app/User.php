@@ -11,6 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * Class User
  *
+ * @todo    Implement profile_image and language to the testing factory.
  * @package App
  */
 class User extends Authenticatable
@@ -22,7 +23,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'profile_image', 'password'];
+    protected $fillable = ['name', 'email', 'language', 'profile_image', 'password'];
 
     /**
      * The attributes that should be hidden for arrays.

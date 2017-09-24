@@ -3,6 +3,8 @@
         <span class="fa fa-user" aria-hidden="true"></span> Account informatie:
     </div>
 
+    {{-- TODO: Implement dropdown where the user can specify his language. (en, nl, fr are defined in the middleware) --}}
+
     <div class="panel-body">
         <form action="{{ route('account.settings.info') }}" method="POST" class="form-horizontal" enctype="multipart/form-data">
             {{ csrf_field() }} {{-- CSRF Field protection --}}

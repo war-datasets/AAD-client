@@ -64,15 +64,20 @@
                         </li>
                     </ul>
 
-                    <!-- Right Side Of Navbar -->
+                    {{-- Right Side Of Navbar --}}
                     <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
+                        {{-- Authentication Links --}}
+
+                        @guest {{-- User is not authenticated.  --}}
+                            {{-- TODO: Implementatie dropdown application translations --}}
+
                             <li><a href="{{ route('login') }}"><span class="fa fa-sign-in" aria-hidden="true"></span> Login</a></li>
                             <li><a href="{{ route('register') }}"><span class="fa fa-plus" aria-hidden="true"></span> Register</a></li>
-                        @else
+                        @else {{-- User is authenticated. .  --}}
                             <li>
-                                <a href="">
+                                {{-- TODO: Implemen the badge for displaying how much notifications are unread.  --}}
+
+                                <a href="{{ route('notifications') }}">
                                     <span class="fa fa-bell"></span>
                                 </a>
                             </li>
@@ -118,7 +123,7 @@
     </div>
 
     {{-- Scripts --}}
-    <script>$('div.alert').not('.alert-important').delay(3000).fadeOut(350);</script>
+    <script>$('div.alert').not('.alert-important').delay(3000).fadeOut(350);</script> {{-- TODO: Set to asset JS file. --}}
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
