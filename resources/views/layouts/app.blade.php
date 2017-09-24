@@ -59,6 +59,12 @@
 
                         <li>
                             <a href="">
+                                <span class="fa fa-envelope" aria-hidden="true"></span> Contact
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="">
                                 <span class="fa fa-legal" aria-hidden="true"></span> Disclaimer
                             </a>
                         </li>
@@ -66,10 +72,19 @@
 
                     {{-- Right Side Of Navbar --}}
                     <ul class="nav navbar-nav navbar-right">
-                        {{-- Authentication Links --}}
-
+                        {{-- Authentication Links & language --}}
                         @guest {{-- User is not authenticated.  --}}
-                            {{-- TODO: Implementatie dropdown application translations --}}
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Taal: {{ strtoupper(config('app.locale')) }} <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li><a href="?lang=nl"><span class="flag-icon flag-icon-nl"></span> Nederlands</a></li>
+                                    <li><a href="?lang=en"><span class="flag-icon flag-icon-us"></span> Engels</a></li>
+                                    <li><a href="?lang=fr"><span class="flag-icon flag-icon-fr"></span> Frans</a></li>
+                                </ul>
+                            </li>
 
                             <li><a href="{{ route('login') }}"><span class="fa fa-sign-in" aria-hidden="true"></span> Login</a></li>
                             <li><a href="{{ route('register') }}"><span class="fa fa-plus" aria-hidden="true"></span> Register</a></li>

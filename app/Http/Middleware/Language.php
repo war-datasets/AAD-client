@@ -30,11 +30,7 @@ class Language
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->check()) { // Authenticated  user found.
-            $language = auth()->user()->language;
-        } else { // No authenticated user.
-            $language = (Input::get('lang')) ?: Session::get('lang');
-        }
+        $language = (Input::get('lang')) ?: Session::get('lang');
 
         $this->setSupportedLanguage($language);
         return $next($request);
@@ -60,7 +56,7 @@ class Language
     private function setSupportedLanguage($lang)
     {
         if ($this->isLanguageSupported($lang)) {
-            App::setLocate($lang);
+            App::setLocale($lang);
             Session::put('lang', $lang);
         }
     }

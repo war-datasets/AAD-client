@@ -6,6 +6,8 @@ use App\Http\Requests\AccountInfoValidator;
 use App\Http\Requests\AccountSecurityValidator;
 use App\Repositories\ApiKeyRepository;
 use App\Repositories\UsersRepository;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
@@ -38,7 +40,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(): View
     {
         return view('account.index', [
             'keys' => $this->apiKeyRepository->all(['id', 'service', 'key']),
@@ -49,13 +51,11 @@ class AccountController extends Controller
     /**
      * Update function for the account information.
      *
-     * @param  AccountInfoValidator $input
+     * @param  AccountInfoValidator $input Yhe user given input (validated).
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateInfo(AccountInfoValidator $input)
+    public function updateInfo(AccountInfoValidator $input): RedirectResponse
     {
-        // TODO: Implement method that allow to set/change user avatars.
-
         if ($input->hasFile('avatar')) {
             $avatar = public_path(auth()->user()->profile_image);
 
@@ -84,11 +84,11 @@ class AccountController extends Controller
      * @param  AccountSecurityValidator $input
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateSecurity(AccountSecurityValidator $input)
+    public function updateSecurity(AccountSecurityValidator $input): RedirectResponse
     {
         //  TODO: Register route and connect it to the form.
 
-        if ($this->usersRepository->update(['password' => bcrypt($input->password)])) {
+        if ($this->usersRepository->update(['password' => bcrypt($input->password)], auth()->user()->id)) {
             flash("Wij hebben je account beveiliging aangepast.")->success();
         }
 
