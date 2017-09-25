@@ -22,4 +22,17 @@ class NewsRepository extends Repository
     {
         return News::class;
     }
+
+    /**
+     * Delete the article image out of the system.
+     *
+     * @param  string $imagePath The path in the system to the article image.
+     * @return bool
+     */
+    public function deleteImage($imagePath)
+    {
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+    }
 }

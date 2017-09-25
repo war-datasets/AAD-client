@@ -86,8 +86,6 @@ class AccountController extends Controller
      */
     public function updateSecurity(AccountSecurityValidator $input): RedirectResponse
     {
-        //  TODO: Register route and connect it to the form.
-
         if ($this->usersRepository->update(['password' => bcrypt($input->password)], auth()->user()->id)) {
             flash("Wij hebben je account beveiliging aangepast.")->success();
         }

@@ -24,6 +24,7 @@ Route::get('/home', 'HomeController@backend')->name('home');
 // Account routes
 Route::get('/account', 'AccountController@index')->name('account.settings');
 Route::post('/account/info', 'AccountController@updateInfo')->name('account.settings.info');
+Route::post('/account/password', 'AccountController@updateSecurity')->name('account.settings.security');
 
 // API access tokens
 Route::post('/create/key', 'ApiKeyController@create')->name('api.key.create');
@@ -35,4 +36,8 @@ Route::get('notifications/markall', ['as' => 'notifications.read.all', 'uses' =>
 
 // News routes
 Route::get('news', 'NewsController@index')->name('news.index');
+Route::get('news/article/{id}', 'NewsController@show')->name('news.show');
+Route::get('news/search', 'NewsController@search')->name('news.search');
 Route::get('news/create', 'NewsController@create')->name('news.create');
+Route::get('news/delete/{id}', 'NewsController@destroy')->name('news.delete');
+Route::post('news/store', 'NewsController@store')->name('news.store');

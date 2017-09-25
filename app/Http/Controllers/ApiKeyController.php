@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ApiKeyValidator;
 use App\Repositories\{ApiKeyRepository, UsersRepository};
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 
 /**
@@ -37,7 +38,7 @@ class ApiKeyController extends Controller
      * @param  ApiKeyValidator $input The user given input (validated)
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(ApiKeyValidator $input)
+    public function create(ApiKeyValidator $input): RedirectResponse
     {
         if ($apiKey = $this->apiKeyRepository->createKey($input->service)) {
             flash("De api sleutel: {$apiKey} is aangemaakt.")->success();
@@ -53,7 +54,7 @@ class ApiKeyController extends Controller
      * @param  Integer $keyId The primary identifier from the access token.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($keyId)
+    public function destroy($keyId): RedirectResponse
     {
         if ($this->apiKeyRepository->permissionCheck(auth()->user(), $keyId)) {
             if ((int) count($this->apiKeyRepository->find($keyId)) === 1) {

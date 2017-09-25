@@ -19,6 +19,13 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        Schema::create('categories_news', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('categories_id');
+            $table->integer('news_id');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -29,5 +36,6 @@ class CreateCategoriesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('categories');
+        Schema::dropIfExists('categories_news');
     }
 }

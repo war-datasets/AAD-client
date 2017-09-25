@@ -28,16 +28,14 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ url('/') }}"> {{-- Branding Image --}}
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        @if (auth()->check()) {{-- There is an authencated user. --}}
+                    <ul class="nav navbar-nav"> {{-- Left Side Of Navbar --}}
+                        @if (auth()->check() && $user->hasRole('admin')) {{-- There is an authencated user. --}}
                             <li>
                                 <a href="">
                                     <span class="fa fa-users" aria-hidden="true"></span> Gebruikers
@@ -90,16 +88,18 @@
                             <li><a href="{{ route('register') }}"><span class="fa fa-plus" aria-hidden="true"></span> Register</a></li>
                         @else {{-- User is authenticated. .  --}}
                             <li>
-                                {{-- TODO: Implemen the badge for displaying how much notifications are unread.  --}}
-
                                 <a href="{{ route('notifications') }}">
                                     <span class="fa fa-bell"></span>
+
+                                    @if (count($user->unreadNotifications) > 0)
+                                        <span class="label label-info">{{ count($user->unreadNotifications) }}</span>
+                                    @endif
                                 </a>
                             </li>
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ $user->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -138,7 +138,7 @@
     </div>
 
     {{-- Scripts --}}
-    <script>$('div.alert').not('.alert-important').delay(3000).fadeOut(350);</script> {{-- TODO: Set to asset JS file. --}}
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>$('div.alert').not('.alert-important').delay(3000).fadeOut(350);</script> {{-- TODO: Set to asset JS file. --}}
 </body>
 </html>

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BanUserValidator;
 use App\Repositories\UsersRepository;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Http\{RedirectResponse, Response};
+use Illuminate\View\View;
 
 /**
  * Class UsersController
@@ -31,7 +32,7 @@ class UsersController extends Controller
     public function __construct(UsersRepository $usersRepository)
     {
         $this->middleware('auth');
-        $this->middleware('role:admin')->except(['destroy']);
+        $this->middleware('role:admin')->except(['destroy']); // Allow normal users to use the destroy function.
 
         $this->usersRepository = $usersRepository;
     }
@@ -41,7 +42,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(): View
     {
         return view('users.index', [
             'users' => $this->usersRepository->all('name', 'email', 'created_at')
@@ -55,7 +56,7 @@ class UsersController extends Controller
      * @param  Integer          $userId The unique identifier from the user in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function block(BanUserValidator $input, $userId)
+    public function block(BanUserValidator $input, $userId): RedirectResponse
     {
         $user = $this->usersRepository->find($userId);
 
@@ -76,7 +77,7 @@ class UsersController extends Controller
      * @param  Integer $userId The unique identifier from the user in the database.
      * @return \Illuminate\Http\Response
      */
-    public function unblock($userId)
+    public function unblock($userId): Response
     {
         $user = $this->usersRepository->find($userId);
 
@@ -100,8 +101,11 @@ class UsersController extends Controller
      * @param  Integer $userId The unique identifier in the database for the account.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($userId)
+    public function destroy($userId): RedirectResponse
     {
+        // TODO: Implement method to delete the user image. Out of the system.
+        //       Because they are not deleted currently.
+
         $user = $this->usersRepository->find($userId);
 
         if ($this->usersRepository->cannotDeleteUser($user)) {

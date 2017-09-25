@@ -5,12 +5,9 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class NewsValidator
- *
- * @property mixed categories
- * @package App\Http\Requests
+ * @property mixed term
  */
-class NewsValidator extends FormRequest
+class SearchValidator extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,10 +26,6 @@ class NewsValidator extends FormRequest
      */
     public function rules()
     {
-        return [
-            'title' => 'required',
-            'text'  => 'required',
-            'image' => 'required'
-        ];
+        return ['term' => 'required'];
     }
 }

@@ -4,7 +4,8 @@
     </div>
 
     <div class="panel-body">
-        <form method="POST" class="form-horizontal" action="">
+        <form method="POST" class="form-horizontal" action="{{ route('account.settings.security') }}">
+			{{-- TODO: Implement validation errors. --}}
             {{ csrf_field() }} {{-- CSRF field protection --}}
 
             <div class="form-group">

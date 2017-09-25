@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchValidator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\NewsValidator;
 use App\Repositories\{
-    CategoryRepository, NewsRepository, UsersRepository
+    CategoryRepository, Criteria\SearchArticle, NewsRepository, UsersRepository
 };
 use Illuminate\View\View;
+use Intervention\Image\Facades\Image;
 
 /**
  * Class NewsController
@@ -40,7 +42,7 @@ class NewsController extends Controller
         $routes = ['show', 'index'];
 
         $this->middleware('auth')->except($routes);
-        // $this->middleware('') TODO: Implement middleware for admin access.
+        $this->middleware('role:admin')->except($routes);
         // $this->middleware('forbid-banned-user')->except($routes);
 
         $this->newsRepository       = $newsRepository;
@@ -84,6 +86,28 @@ class NewsController extends Controller
     }
 
     /**
+     * Search for a specific article in the database.
+     *
+     * @param  SearchValidator $input The user given input. (validated)
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(SearchValidator $input): View
+    {
+        $this->newsRepository->pushCriteria(new SearchArticle($input->get('term')));
+
+        $limit      = (auth()->check() & auth()->user()->hasRole('admin')) ? 20 : 5;
+        $messages   = $this->newsRepository->with(['author', 'categories'])->paginate($limit);
+        $categories = $this->categoryRepository->findWhere(['module' => 'news'], ['id', 'name']);
+
+        if (auth()->check() && $this->usersRepository->isAdmin()) {
+            // if the user is an admin. We need to redirect them to the admin view.
+            return view('news.admin', compact('messages'));
+        }
+
+        return view('news.index', compact('messages', 'categories'));
+    }
+
+    /**
      * Display the creation view for a new news message.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -104,8 +128,18 @@ class NewsController extends Controller
     public function store(NewsValidator $input): RedirectResponse
     {
         $categories = explode(',', $input->categories); // Break up the text into an array
+        $input->merge(['author_id' => auth()->user()->id]);
 
-        if ($message = $this->newsRepository->create($input->except(['_token']))) {
+        if ($input->hasFile('image')) { // There is an image present. So upload and store it to the database.
+            $imagePath = $input->file('image');
+            $filename  = time() . '.' . $imagePath->getClientOriginalExtension();
+            $path      = public_path('images/' . $filename);
+            Image::make($imagePath->getRealPath())->resize(160, 160)->save($path);
+
+            $input->merge(['image_path' => "images/{$filename}"]);
+        }
+
+        if ($message = $this->newsRepository->create($input->except(['_token', 'categories']))) {
             if (! is_null($input->categories)) { // The categories are not empty so we need to find or store them.
                 foreach ($categories as $category) {
                     // Loop through the given categories. If there found in the db. They will attached.
@@ -176,6 +210,8 @@ class NewsController extends Controller
      */
     public function update(NewsValidator $input, $newsId): RedirectResponse
     {
+        // TODO: Implement method to change the photo in the article.
+
         $data = $input->except(['_token', 'categories']);
 
         if ($message = $this->newsRepository->update($data, $newsId)) {
@@ -195,6 +231,15 @@ class NewsController extends Controller
      */
     public function destroy($newsId): RedirectResponse
     {
-        // TODO: write controller logic.
+        $message = $this->newsRepository->with(['categories'])->find($newsId); // ?: abort(403)
+
+        if ($this->newsRepository->delete($newsId)) {
+            $this->newsRepository->deleteImage(public_path($message->image_path));
+            $message->categories()->sync([]);
+
+            flash("Het nieuwsbericht is verwijderd.")->success();
+        }
+
+        return redirect()->route('news.index');
     }
 }

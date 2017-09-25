@@ -11,7 +11,7 @@
                         </div>
 
                         @if ((int) count($messages) > 0) {{-- Petitions found --}}
-                            @foreach ($messages as $$message)
+                            @foreach ($messages as $message)
                                 <div style="margin-left: -15px;" class="col-sm-12">
                                     <div class="row">
                                         <div class="col-md-8">
@@ -54,7 +54,7 @@
 
                                                 @if ($message->categories()->count() > 0)
                                                     @foreach($message->categories as $category)
-                                                        <span class="label label-danger">{{ $message->name }}</span>
+                                                        <span class="label label-danger">{{ $category->name }}</span>
                                                     @endforeach
                                                 @else
                                                     <span class="label label-primary">Geen</span>
@@ -64,6 +64,8 @@
                                     </div>
                                 </div>
                             @endforeach
+
+                            {{ $messages->render() }} {{-- The pagination instance. --}}
                         @else {{-- No petitions found --}}
                             <div class="alert alert-info alert-important" role="alert">
                                 <strong>Info:</strong> Er zijn momenteel geen nieuwsberichten gevonden. Probeer het later nog eens opnieuw.
@@ -75,7 +77,7 @@
 
             <div class="col-md-3"> {{-- Sidebar --}}
                 <div class="well well-sm"> {{-- Search well --}}
-                    <form action="" method="GET">
+                    <form action="{{ route('news.search') }}" method="GET">
                         <div class="input-group">
                             <input type="text" name="term" class="form-control" placeholder="Zoek nieuwsbericht">
                             <span class="input-group-btn">
