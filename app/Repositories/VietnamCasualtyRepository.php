@@ -4,16 +4,17 @@ namespace App\Repositories;
 
 use ActivismeBE\DatabaseLayering\Repositories\Contracts\RepositoryInterface;
 use ActivismeBE\DatabaseLayering\Repositories\Eloquent\Repository;
-use App\KoreanCasualties;
+use App\VietnamCasualties;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Class KoreanCasualtyRepository
+ * Class VietnamCasualtyRepository
  *
  * @package App\Repositories
  */
-class KoreanCasualtyRepository extends Repository
+class VietnamCasualtyRepository extends Repository
 {
+
     /**
      * Set the eloquent model class for the repository.
      *
@@ -21,7 +22,7 @@ class KoreanCasualtyRepository extends Repository
      */
     public function model()
     {
-        return KoreanCasualties::class;
+        return VietnamCasualties::class;
     }
 
     /**

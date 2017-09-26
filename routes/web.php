@@ -26,6 +26,12 @@ Route::get('/account', 'AccountController@index')->name('account.settings');
 Route::post('/account/info', 'AccountController@updateInfo')->name('account.settings.info');
 Route::post('/account/password', 'AccountController@updateSecurity')->name('account.settings.security');
 
+// Causalty routes
+Route::get('/casualties/korea', 'CasualtyController@indexKorea')->name('casualties.index.korea');
+Route::get('/casualties/vietnam', 'CasualtyController@indexVietnam')->name('casualties.index.vietnam');
+Route::get('/casualties/search', 'CasualtyController@search')->name('casualties.search');
+Route::get('/casualties/show/korea/{id}', 'CasualtyController@showKorea')->name('casualties.show.korea');
+
 // API access tokens
 Route::post('/create/key', 'ApiKeyController@create')->name('api.key.create');
 Route::get('/delete/key/{id}', 'ApiKeyController@destroy')->name('api.key.delete');

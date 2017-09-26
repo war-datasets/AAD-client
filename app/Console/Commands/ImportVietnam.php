@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Repositories\VietnamCasualtyRepository;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class ImportVietnam extends Command
 {
@@ -21,13 +23,20 @@ class ImportVietnam extends Command
     protected $description = 'Import the NARA dataset about the Vietnam war.';
 
     /**
+     * @var VietnamCasualtyRepository
+     */
+    private $vietnamCasualtyRepository;
+
+    /**
      * Create a new command instance.
      *
+     * @param  VietnamCasualtyRepository $vietnamCasualtyRepository
      * @return void
      */
-    public function __construct()
+    public function __construct(VietnamCasualtyRepository $vietnamCasualtyRepository)
     {
         parent::__construct();
+        $this->vietnamCasualtyRepository = $vietnamCasualtyRepository;
     }
 
     /**
@@ -37,6 +46,23 @@ class ImportVietnam extends Command
      */
     public function handle()
     {
-        $this->info('[TODO]: Write out import command.');
+        if ($this->confirm('Do you want to truncate the database table?')) {
+            DB::table('vietnam_casualties')->delete();
+            $this->info('[INFO]: The Table is empty now.');
+        }
+
+        $this->info('[INFO]: Start migrating the data.');
+
+        $this->vietnamCasualtyRepository->importData(
+            'https://raw.githubusercontent.com/war-datasets/DCAS.VN.EXT08.DAT/master/sources/DCAS.VN.EXT08.DAT',
+            'vietnam_casualties'
+        );
+
+        $this->info("[INFO]: The data has been populated.");
+        $this->info("[INFO]: Cleaning up data.");
+
+        $this->vietnamCasualtyRepository->cleanUp('vietnam_casualties');
+
+        $this->info("[INFO]: The cleanup is ready.");
     }
 }

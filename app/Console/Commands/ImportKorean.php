@@ -58,6 +58,11 @@ class ImportKorean extends Command
             'korean_casualties'
         );
 
-        $this->info("[INFO] The data has been populated.");
+        $this->info("[INFO]: The data has been populated.");
+        $this->info("[INFO]: Cleaning up data.");
+
+        $this->koreanCasualtyRepository->cleanUp('korean_casualties');
+
+        $this->info("[INFO]: The cleanup is ready.");
     }
 }

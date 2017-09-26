@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\ImportKorean::class,
-        \App\Console\Commands\ImportVietnam::class
+        \App\Console\Commands\ImportVietnam::class,
     ];
 
     /**

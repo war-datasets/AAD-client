@@ -43,10 +43,16 @@
                             </li>
                         @endif
 
-                        <li>
-                            <a href="">
-                                <span class="fa fa-list" aria-hidden="true"></span> Namenlijst
+                        <li class="dropdown">
+                            <a href="#"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <span class="fa fa-list" aria-hidden="true"></span> Namenlijst <span class="caret"></span>
                             </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('casualties.index.korea') }}"><span class="fa fa-users" aria-hidden="true"></span> Korea</a></li>
+                                <li><a href="{{ route('casualties.index.vietnam') }}"><span class="fa fa-users" aria-hidden="true"></span> Vietnam</a></li>
+                                <li><a href=""><span class="fa fa-users" aria-hidden="true"></span> Jaren 1950 - 2006</a></li>
+                            </ul>
                         </li>
 
                         <li>
@@ -110,9 +116,15 @@
                                     </li>
 
                                     <li>
-                                        <a href="">
-                                            <span class="fa fa-question"></span> Helpdesk
-                                        </a>
+                                        @if ($user->hasRole('admin'))
+                                            <a href="">
+                                                <span class="fa fa-question"></span> Helpdesk
+                                            </a>
+                                        @else
+                                            <a href="">
+                                                <span class="fa fa-chevron-right" aria-hidden="true"></span> Meld een probleem
+                                            </a>
+                                        @endif
                                     </li>
 
                                     <li class="divider"></li>
