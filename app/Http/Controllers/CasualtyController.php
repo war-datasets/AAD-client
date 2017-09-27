@@ -42,9 +42,14 @@ class CasualtyController extends Controller
         return view('casualties.index', [
             'count'      => $this->koreanCasualtyRepository->entity()->count(),
             'casualties' => $this->koreanCasualtyRepository->paginate(50),
+            'selector'   => 'korea'
         ]);
     }
 
+    /**
+     * @param $serviceNo
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showKorea($serviceNo): View
     {
         return view('casualties.show', [
@@ -62,6 +67,20 @@ class CasualtyController extends Controller
         return view('casualties.index', [
             'count'      => $this->vietnamCasualtyRepository->entity()->count(),
             'casualties' => $this->vietnamCasualtyRepository->paginate(50),
+            'selector'   => 'vietnam',
+        ]);
+    }
+
+    /**
+     * Get a specific vietnam casualty by his service number.
+     *
+     * @param  string $serviceNo The service number for the casualty.
+     * @return |Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showVietnam($serviceNo): View
+    {
+        return view('casualties.show', [
+            'casualty' => $this->vietnamCasualtyRepository->findBy('service_no', $serviceNo)
         ]);
     }
 

@@ -31,10 +31,15 @@ Route::get('/casualties/korea', 'CasualtyController@indexKorea')->name('casualti
 Route::get('/casualties/vietnam', 'CasualtyController@indexVietnam')->name('casualties.index.vietnam');
 Route::get('/casualties/search', 'CasualtyController@search')->name('casualties.search');
 Route::get('/casualties/show/korea/{id}', 'CasualtyController@showKorea')->name('casualties.show.korea');
+Route::get('/casualties/show/vietname/{id}', 'CasualtyController@showVietnam')->name('casualties.show.vietnam');
 
 // API access tokens
 Route::post('/create/key', 'ApiKeyController@create')->name('api.key.create');
 Route::get('/delete/key/{id}', 'ApiKeyController@destroy')->name('api.key.delete');
+
+// Contact routes 
+Route::get('/contact', 'ContactController@create')->name('contact.index');
+Route::post('/contact', 'ContactController@store')->name('contact.store');
 
 // Notifications
 Route::get('notifications', ['as' => 'notifications', 'uses' => 'NotificationController@index']);
