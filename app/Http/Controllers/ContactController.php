@@ -45,7 +45,11 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return view('contact.index');
+        $relations = ['author', 'relations'];
+
+        return view('contact.index', [
+            'messages' => $this->contactRepository->with($relations)->paginate(50)
+        ]);
     }
 
 	/**
@@ -88,18 +92,25 @@ class ContactController extends Controller
     }
 
     /**
-     * @todo docblock
+     * Edit the status for the contact message.
+     *
+     * @param  string  $status    The status name for the message. (open or closed)
+     * @param  integer $contactId The primary key in the storage for the contact message.
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function status($contactId)
+    public function status($contactId, $status): RedirectResponse
     {
-        return "<code>TODO</code>";
+        return redirect()->back(302);
     }
 
     /**
-     * @todo docblock
+     * Delete a contact message in thue storage.
+     *
+     * @param  integer $contactId The primary key in the storage for the contact message.
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function delete($contactId): RedirectResponse
     {
-        return "<code>TODO</code>";
+        return redirect()->back(302);
     }
 }
