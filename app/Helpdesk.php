@@ -11,5 +11,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Helpdesk extends Model
 {
-    //
+    /**
+     * Mass-assign fields for the database table.
+     *
+     * @return array
+     */
+    protected $fillable = [];
 }
