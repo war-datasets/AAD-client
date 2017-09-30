@@ -68,6 +68,9 @@ class UsersController extends Controller
 
 		// TODO: Implement a method. That the banned user can't use his api keys.
 
+        // TODO: Implementatie voor de blokkering van alle api keys in het systeem.
+        //       Omdat wanneer een gebruiker geblokkeerd word mag hij zijn sleutels ook niet gebruiken.
+
         $user->ban(['comment' => $input->reason, 'expired_at' => Carbon::parse($input->eind_datum)]);
         flash("{$user->name} is geblokkeerd tot {$input->end_date}.")->success();
 
