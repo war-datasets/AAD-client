@@ -100,7 +100,7 @@ class HelpdeskController extends Controller
         $ticket = $this->helpdeskRepository->find($helpdeskId);
 
         if ($this->helpdeskRepository->delete($helpdeskId)) {
-            $tickets->categories()->sync([]);
+            $ticket->categories()->sync([]);
             flash('Het helpdesk ticket is verwijderd uit het systeem.')->success();
         }
     }
