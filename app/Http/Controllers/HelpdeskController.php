@@ -12,7 +12,7 @@ use Illuminate\View\View;
  * Class HelpdeskController
  *
  * @author  Tim Joosten <Topairy@gmail.com>
- * @license Only for read proposes
+ * @license
  * @package App\Http\Controllers
  */
 class HelpdeskController extends Controller
@@ -33,6 +33,7 @@ class HelpdeskController extends Controller
 
         $this->middleware('auth')->except($routes);
         $this->middleware('role:admin')->except($routes);
+        // $this->middleware('forbid-banned-user')->except($route);
 
         $this->helpdeskRepository = $helpdeskRepository;
         $this->categoryRepository = $categoryRepository;
@@ -83,7 +84,7 @@ class HelpdeskController extends Controller
      * @param   string  $status   The new status for the ticket.
      * @return  \Illuminate\Http\RedirectReponse
      */
-    public function status($ticketId, $status): RedirectResponse 
+    public function status($ticketId, $status): RedirectResponse
     {
         // TODO: Register the route in the AAD Client.
 
@@ -96,13 +97,12 @@ class HelpdeskController extends Controller
 
     public function delete($helpdeskId): RedirectResponse
     {
-        $ticket = $this->helpdeskRepository->find($helpdeskId)
+        $ticket = $this->helpdeskRepository->find($helpdeskId);
 
         if ($this->helpdeskRepository->delete($helpdeskId)) {
             $tickets->categories()->sync([]);
             flash('Het helpdesk ticket is verwijderd uit het systeem.')->success();
         }
-        
     }
 
     /**

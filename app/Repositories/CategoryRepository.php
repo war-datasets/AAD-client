@@ -1,14 +1,14 @@
-<?php 
+<?php
 
 namespace App\Repositories;
 
-use ActivismeBE\DatabaseLayering\Repositories\Contracts\RepositoryInterface;
-use ActivismeBE\DatabaseLayering\Repositories\Eloquent\Repository;
 use App\Categories;
+use ActivismeBE\DatabaseLayering\Repositories\{Contracts\RepositoryInterface, Eloquent\Repository};
 
 /**
  * Class CategoryRepository
  *
+ * @author  Tim Joosten <topairy@gmail.com>
  * @package App\Repositories
  */
 class CategoryRepository extends Repository

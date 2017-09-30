@@ -33,6 +33,7 @@ class UsersController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('role:admin')->except(['destroy']); // Allow normal users to use the destroy function.
+        // $this->middleware('forbid-banned-user'); // TODO: Build up and register the middleware.
 
         $this->usersRepository = $usersRepository;
     }
@@ -53,7 +54,7 @@ class UsersController extends Controller
      * Ban some user account in the system.
      *
      * @param  BanUserValidator $input  The given user input (validated)
-     * @param  Integer          $userId The unique identifier from the user in the database.
+     * @param  integer          $userId The unique identifier from the user in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function block(BanUserValidator $input, $userId): RedirectResponse
@@ -63,7 +64,9 @@ class UsersController extends Controller
         if (auth()->user()->id === $user->id) { // The given user is the currently authencated user.
             flash('Je kan jezelf helaas niet blokkeren.')->warning();
             return redirect()->route('users.index');
-        }
+		}
+
+		// TODO: Implement a method. That the banned user can't use his api keys.
 
         $user->ban(['comment' => $input->reason, 'expired_at' => Carbon::parse($input->eind_datum)]);
         flash("{$user->name} is geblokkeerd tot {$input->end_date}.")->success();
@@ -74,7 +77,7 @@ class UsersController extends Controller
     /**
      * Unban an user account
      *
-     * @param  Integer $userId The unique identifier from the user in the database.
+     * @param  iynteger $userId The unique identifier from the user in the database.
      * @return \Illuminate\Http\Response
      */
     public function unblock($userId): Response
@@ -113,7 +116,7 @@ class UsersController extends Controller
         }
 
         if ($this->usersRepository->delete($user->id)) {
-            flash("Het ccount van {$user->name} is verwjderd.")->success();
+            flash("Het account van {$user->name} is verwjderd.")->success();
         }
 
         return redirect()->route('users.index');

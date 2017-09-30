@@ -14,12 +14,12 @@ use Illuminate\View\View;
  */
 class ContactController extends Controller
 {
-    private $contactRepository;
+    private $contactRepository; /** @var ContactRepository $contactRepository */
 
     /**
      * ContactController Constructor
 	 *
-	 * @param  ContctRepository $contactRepository The abstraction layer for the contact db model.
+	 * @param  ContactRepository $contactRepository The abstraction layer for the contact db model.
 	 * @return void
      */
     public function __construct(ContactRepository $contactRepository)
@@ -52,18 +52,29 @@ class ContactController extends Controller
     	// 4. If user is authencated store the ticket in the helpdesk db table. with the category contact.
     }
 
+    /**
+     * @todo docblock
+     */
     public function show()
     {
-
+        // IF contact message exists. 
+        //    THEN Display contact message. 
+        //    ELSE Abort application and throw a 404 page. 
     }
 
+    /**
+     * @todo docblock
+     */
     public function status()
     {
-
+        return "<code>TODO</code>";
     }
 
-    public function delete()
+    /**
+     * @todo docblock
+     */
+    public function delete(): RedirectResponse
     {
-
+        return "<code>TODO</code>";
     }
 }

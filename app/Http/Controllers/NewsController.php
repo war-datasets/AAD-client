@@ -8,9 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\NewsValidator;
-use App\Repositories\{
-    CategoryRepository, Criteria\SearchArticle, NewsRepository, UsersRepository
-};
+use App\Repositories\{CategoryRepository, Criteria\SearchArticle, NewsRepository, UsersRepository};
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
 
@@ -177,8 +175,8 @@ class NewsController extends Controller
     /**
      * Change the status for a news post.
      *
-     * @param  Integer $newsId The unique identifier form the message in the database.
-     * @param  String  $status The status name for the news message.
+     * @param  integer $newsId The unique identifier form the message in the database.
+     * @param  string  $status The status name for the news message.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function status($newsId, $status): RedirectResponse
@@ -205,7 +203,7 @@ class NewsController extends Controller
      * Update a news message in the database.
      *
      * @param  NewsValidator $input  The user given input (validated)
-     * @param  Integer       $newsId The unique identifier from the news message in the database.
+     * @param  integer       $newsId The unique identifier from the news message in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(NewsValidator $input, $newsId): RedirectResponse
@@ -226,7 +224,7 @@ class NewsController extends Controller
     /**
      * Delete a news message in the database.
      *
-     * @param  Integer $newsId The unique identifier from the news message in the database.
+     * @param  integer $newsId The unique identifier from the news message in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($newsId): RedirectResponse
