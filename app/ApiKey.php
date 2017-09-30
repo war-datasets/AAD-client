@@ -16,5 +16,7 @@ class ApiKey extends \Chrisbjr\ApiGuard\Models\ApiKey
      * 
      * @var array
      */
-    protected $fillable = ['key', 'apikeyable_id', 'apikeyable_type', 'last_ip_address', 'service', 'last_used_at'];
+    protected $fillable = [
+        'key', 'apikeyable_id', 'apikeyable_type', 'last_ip_address', 'service', 'last_used_at', 'blocked'
+    ];
 }
