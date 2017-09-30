@@ -31,7 +31,7 @@
                                     <tr>
                                         <td><code><strong>{{ $casualty->service_no }}</strong></code></td>
                                         <td>
-                                            <a href="{{ route('casualties.show.korea', ['id' => $casualty->service_no]) }}">
+                                            <a href="{{ route('casualties.show.' . $selector, ['id' => $casualty->service_no]) }}">
                                                 {{ ucfirst($casualty->member_name) }}
                                             </a>
                                         </td>

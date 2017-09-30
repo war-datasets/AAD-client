@@ -62,7 +62,7 @@
                         </li>
 
                         <li>
-                            <a href="">
+                            <a href="{{ route('contact.index') }}">
                                 <span class="fa fa-envelope" aria-hidden="true"></span> Contact
                             </a>
                         </li>

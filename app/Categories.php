@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Categories extends Model
 {
 	/**
-	 * Mass)assing fields for the database table.
+	 * Mass-assign fields for the database table.
 	 *
 	 * @var array
 	 */

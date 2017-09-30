@@ -19,7 +19,10 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->only(['backend']);
+        $routes = ['backend']; 
+
+        $this->middleware('auth')->only($routes);
+        // $this->middleware('forbid-banned-user')->only($routes)
     }
 
     /**

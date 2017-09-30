@@ -28,7 +28,7 @@
                                 <tr>
                                     <td class="col-md-4"><strong>Geboren:</strong></td>
                                     <td>
-                                        @if (! empty($casualty->birth_date)) {{ date('Y/m/d', $casualty->birth_date) . ',' }}    @else Date unknown,  @endif
+                                        @if (! empty($casualty->birth_date)) {{ date('Y/m/d', strtotime($casualty->birth_date)) . ',' }}    @else Date unknown,  @endif
                                         @if (! empty($casualty->hor_city))   {{ $casualty->hor_city . ',' }}      @else Place unknown  @endif
                                     </td>
                                 </tr>
@@ -80,7 +80,7 @@
                                     <td class="col-md-4"><strong>Omstandigheden:</strong></td>
                                     <td>
                                         @if (! empty($casualty->cas_circumstances))
-                                            {{ $casualty->cas_circumstances }}
+                                            {{ucfirst($casualty->cas_circumstances) }}
                                         @else
                                             Unknown
                                         @endif

@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+
+use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\View\View;
 
 /**
  * Class NotificationController
  *
+ * @author  Tim Joosten <topairy@gmail.com>
+ * @license MIT LICENSE
  * @package App\Http\Controllers
  */
 class NotificationController extends Controller
@@ -20,6 +22,7 @@ class NotificationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        // $this->middleware('forbid-banned-user'); // TODO: Register and build up the middleware.
     }
 
     /**
