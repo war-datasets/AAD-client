@@ -11,6 +11,8 @@ use Illuminate\View\View;
 /**
  * Class UsersController
  *
+ * @author  Tim Joosten <Topairy@gmail.com>
+ * @license MIT License
  * @package App\Http\Controllers
  */
 class UsersController extends Controller
@@ -65,8 +67,6 @@ class UsersController extends Controller
             flash('Je kan jezelf helaas niet blokkeren.')->warning();
             return redirect()->route('users.index');
 		}
-
-		// TODO: Implement a method. That the banned user can't use his api keys.
 
         // TODO: Implementatie voor de blokkering van alle api keys in het systeem.
         //       Omdat wanneer een gebruiker geblokkeerd word mag hij zijn sleutels ook niet gebruiken.

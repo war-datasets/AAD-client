@@ -3,28 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactValidator;
+use App\Repositories\CategoryRepository;
 use App\Repositories\ContactRepository;
 use Illuminate\Http\{Request, RedirectResponse};
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 /**
  * Class ContactController
  *
+ * @author  Tim Joosten <Topairy@gmail.com>
+ * @license MIT License
  * @package App\Http\Controllers
  */
 class ContactController extends Controller
 {
-    private $contactRepository; /** @var ContactRepository $contactRepository */
+    private $categoryRepository; /** @var CategoryRepository $categoryRepository */
+    private $contactRepository;  /** @var ContactRepository  $contactRepository  */
 
     /**
      * ContactController Constructor
 	 *
-	 * @param  ContactRepository $contactRepository The abstraction layer for the contact db model.
+     * @param  CategoryRepository $categoryRepository The abstraction layer for the category db model.
+	 * @param  ContactRepository  $contactRepository  The abstraction layer for the contact db model.
+     *
 	 * @return void
      */
-    public function __construct(ContactRepository $contactRepository)
+    public function __construct(ContactRepository $contactRepository, CategoryRepository $categoryRepository)
     {
-        $this->contactRepository = $contactRepository;
+        $this->middleware('auth')->except(['create', 'store']);
+        // $this->>middleware('forbid-banned-users'); // TODO: Build up and register the middleware.
+
+        $this->categoryRepository = $categoryRepository;
+        $this->contactRepository  = $contactRepository;
+    }
+
+    /**
+     * Get the dashboard for the contact messages.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('contact.index');
     }
 
 	/**
@@ -34,7 +55,7 @@ class ContactController extends Controller
 	 */
     public function create(): View
     {
-    	return view('contact.index');
+    	return view('contact.create');
     }
 
     /**
@@ -50,22 +71,26 @@ class ContactController extends Controller
 
     	// IDEAS:
     	// 4. If user is authencated store the ticket in the helpdesk db table. with the category contact.
+
+        return "<code>TODO</code>";
     }
 
     /**
-     * @todo docblock
+     * Display a specific message in the system.
+     *
+     * @param  integer $contactId The primary key form the message in the storage.
+     * @return View
      */
-    public function show()
+    public function show($contactId): View
     {
-        // IF contact message exists. 
-        //    THEN Display contact message. 
-        //    ELSE Abort application and throw a 404 page. 
+        $message = $this->contactRepository->find($contactId) ?: abort(404);
+        return view('contact.show', compact('message'));
     }
 
     /**
      * @todo docblock
      */
-    public function status()
+    public function status($contactId)
     {
         return "<code>TODO</code>";
     }
@@ -73,7 +98,7 @@ class ContactController extends Controller
     /**
      * @todo docblock
      */
-    public function delete(): RedirectResponse
+    public function delete($contactId): RedirectResponse
     {
         return "<code>TODO</code>";
     }
