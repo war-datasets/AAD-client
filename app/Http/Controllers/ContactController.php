@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactValidator;
 use App\Repositories\ContactRepository;
-use Illuminate\Http\Request;
+use Illuminate\Http\{Request, RedirectResponse};
 use Illuminate\View\View;
 
 /**
@@ -37,12 +38,12 @@ class ContactController extends Controller
     }
 
     /**
-     * Store the contact form in the database. 
-     * 
+     * Store the contact form in the database.
      *
+     * @param  ContactValidator $input The user given input. (validated)
      * @return \Illuminate\Http\RedirectResponse
-     */ 
-    public function store()
+     */
+    public function store(ContactValidator $input): RedirectResponse
     {
     	// 1. Store in support desk.
     	// 2. Redirect user and display a flash messsage.

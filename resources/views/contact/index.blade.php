@@ -43,11 +43,11 @@
 
 							<div class="form-group"> {{-- Option form-group --}}
 								<div class="col-md-12">
-									<button type="submit" class="btn btn-xs btn-success">
+									<button type="submit" class="btn btn-sm btn-success">
 										<span class="fa fa-check" aria-hidden="true"></span> Verzenden
 									</button>
 
-									<button type="reset" class="btn btn-xs btn-link">
+									<button type="reset" class="btn btn-sm btn-link">
 										<span class="fa fa-undo" aria-hidden="true"></span> Annuleren
 									</button>
 								</div>
