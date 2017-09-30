@@ -65,6 +65,9 @@ class UsersController extends Controller
             return redirect()->route('users.index');
         }
 
+        // TODO: Implementatie voor de blokkering van alle api keys in het systeem.
+        //       Omdat wanneer een gebruiker geblokkeerd word mag hij zijn sleutels ook niet gebruiken.
+
         $user->ban(['comment' => $input->reason, 'expired_at' => Carbon::parse($input->eind_datum)]);
         flash("{$user->name} is geblokkeerd tot {$input->end_date}.")->success();
 
