@@ -18,6 +18,8 @@ class CreateHelpdesksTable extends Migration
     {
         Schema::create('helpdesks', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('author_id');
+            $table->integer('assignee_id')->nullable();
             $table->integer('category');
             $table->string('subject');
             $table->text('description');

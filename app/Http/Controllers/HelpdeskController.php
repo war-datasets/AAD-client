@@ -17,7 +17,7 @@ use Illuminate\View\View;
  */
 class HelpdeskController extends Controller
 {
-    private $helpdeskRepository; /** HelpdeskRepository $helpdeskrepository */
+    private $helpdeskRepository; /** HelpdeskRepository $helpdeskRepository */
     private $categoryRepository; /** CategoryRepository $contactRepository  */
 
     /**
@@ -25,10 +25,13 @@ class HelpdeskController extends Controller
      *
      * @param  HelpdeskRepository $helpdeskRepository
      * @param  CategoryRepository $categoryRepository
+     *
      * @return void
      */
-    public function __construct(HelpdeskRepository $helpdeskRepository, CategoryRepository $categoryRepository)
-    {
+    public function __construct(
+        HelpdeskRepository $helpdeskRepository,
+        CategoryRepository $categoryRepository
+    ) {
         $routes = ['create', 'store', 'ticketsUser'];
 
         $this->middleware('auth')->except($routes);
@@ -95,6 +98,12 @@ class HelpdeskController extends Controller
         return back(302);
     }
 
+    /**
+     * Delete a helpdesk ticket in the system.
+     *
+     * @param  integer $helpdeskId The unique identifier in the data storage.
+     * @return RedirectResponse
+     */
     public function delete($helpdeskId): RedirectResponse
     {
         $ticket = $this->helpdeskRepository->find($helpdeskId);
@@ -113,26 +122,13 @@ class HelpdeskController extends Controller
      */
     public function store(HelpdeskValidator $input): RedirectResponse
     {
-        // TODO: Implement author_id, assigned, priority, status
+        // TODO: implementatie:  priority, status
+        $input->merge(['author_id' => auth()->user()->id]);
 
         if ($this->helpdeskRepository->create($input->except['_token'])) {
             flash("Uw helpdesk ticket is opgeslagen. En zal spoedig behandeld worden.")->success();
         }
 
         return back(302);
-    }
-
-    /**
-     * Get the tickets for the currently authencated user.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function ticketsUser(): View
-    {
-        $this->helpdeskRepository->pushCriteria(new GetUserTickets(auth()->user()->id));
-
-        return view('helpdesk.index', [
-            'tickets' => $this->helpdeskRepository->paginate(20)
-        ]);
     }
 }
