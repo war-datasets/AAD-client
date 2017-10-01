@@ -92,6 +92,7 @@ class CasualtyController extends Controller
 	 */
     public function search(Request $input): View
     {
-
+		// TODO: Build up the controller 
+		//! View is specified by the DCAS format. And for now we can use the view from Korea and Vietnam.
     }
 }

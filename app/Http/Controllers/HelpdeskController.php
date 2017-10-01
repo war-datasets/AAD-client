@@ -17,6 +17,8 @@ use Illuminate\View\View;
  */
 class HelpdeskController extends Controller
 {
+	// TODO: Translate the flash messages in the controller. 
+
     private $helpdeskRepository; /** @var HelpdeskRepository $helpdeskRepository */
 	private $categoryRepository; /** @var CategoryRepository $contactRepository  */
 	private $statusRepository;   /** @var StatusRepository   $statusRepository   */

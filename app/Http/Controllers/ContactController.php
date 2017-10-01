@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactValidator;
-use App\Repositories\CategoryRepository;
-use App\Repositories\ContactRepository;
+use App\Repositories\{CategoryRepository, ContactRepository};
 use Illuminate\Http\{Request, RedirectResponse};
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
