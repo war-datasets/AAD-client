@@ -131,6 +131,8 @@ class HelpdeskController extends Controller
         $input->merge([
 			// TODO: implementatie:  priority, status
 			'author_id' => auth()->user()->id
+			//! 'priority'  => $this->priorityRepository->
+			//! 'status'    => $this->statusRepository->
 		]);
 
         if ($this->helpdeskRepository->create($input->except['_token'])) {
