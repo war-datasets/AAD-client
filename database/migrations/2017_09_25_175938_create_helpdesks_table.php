@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+/**
+ * Class CreateHelpdesksTable
+ */
 class CreateHelpdesksTable extends Migration
 {
     /**
@@ -15,6 +18,9 @@ class CreateHelpdesksTable extends Migration
     {
         Schema::create('helpdesks', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('category');
+            $table->string('subject');
+            $table->text('description');
             $table->timestamps();
         });
     }

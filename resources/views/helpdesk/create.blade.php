@@ -20,7 +20,7 @@
                                     Onderwerp: <span class="text-danger">*</span>
                                 </label>
                                 <div class="col-md-7">
-                                    <input type="text" name="title" class="form-control" placeholder="Titel van het probleem.">
+                                    <input type="text" name="subject" class="form-control" placeholder="Titel van het probleem.">
                                 </div>
                             </div> {{-- /Title form group --}}
 

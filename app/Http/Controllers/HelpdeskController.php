@@ -113,7 +113,7 @@ class HelpdeskController extends Controller
      */
     public function store(HelpdeskValidator $input): RedirectResponse
     {
-        dd($input->all()); // Duump the output for now because there not really a save method. ATM.
+        // TODO: Implement author_id, assigned, priority, status
 
         if ($this->helpdeskRepository->create($input->except['_token'])) {
             flash("Uw helpdesk ticket is opgeslagen. En zal spoedig behandeld worden.")->success();
