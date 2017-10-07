@@ -75,7 +75,7 @@ class CasualtyController extends Controller
      * Get a specific vietnam casualty by his service number.
      *
      * @param  string $serviceNo The service number for the casualty.
-     * @return |Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showVietnam($serviceNo): View
     {
@@ -84,8 +84,15 @@ class CasualtyController extends Controller
         ]);
     }
 
+	/**
+	 * Method for search a specific casualty. Bases on name and service number.
+	 *
+	 * @param  Request $input The instance to get the POST and GET data.
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
     public function search(Request $input): View
     {
-
+		// TODO: Build up the controller 
+		//! View is specified by the DCAS format. And for now we can use the view from Korea and Vietnam.
     }
 }

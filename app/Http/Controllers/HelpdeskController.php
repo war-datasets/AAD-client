@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\HelpdeskValidator;
-use App\Repositories\{CategoryRepository, HelpdeskRepository};
+use App\Repositories\{CategoryRepository, HelpdeskRepository, StatusRepository, PriorityRepository};
 use App\Repositories\Criteria\{GetUserTickets, SearchHelpdesk};
 use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\View\View;
@@ -12,13 +12,17 @@ use Illuminate\View\View;
  * Class HelpdeskController
  *
  * @author  Tim Joosten <Topairy@gmail.com>
- * @license
+ * @license MIT LICENSE
  * @package App\Http\Controllers
  */
 class HelpdeskController extends Controller
 {
-    private $helpdeskRepository; /** HelpdeskRepository $helpdeskRepository */
-    private $categoryRepository; /** CategoryRepository $contactRepository  */
+	// TODO: Translate the flash messages in the controller. 
+
+    private $helpdeskRepository; /** @var HelpdeskRepository $helpdeskRepository */
+	private $categoryRepository; /** @var CategoryRepository $contactRepository  */
+	private $statusRepository;   /** @var StatusRepository   $statusRepository   */
+	private $priorityRepository; /** @var PriorityRepository $priorityRepository */
 
     /**
      * HelpdeskController constructor.
@@ -33,16 +37,20 @@ class HelpdeskController extends Controller
      */
     public function __construct(
         HelpdeskRepository $helpdeskRepository,
-        CategoryRepository $categoryRepository
+		CategoryRepository $categoryRepository,
+		StatusRepository   $statusRepository,
+		PriorityRepository $priorityRepository
     ) {
         $routes = ['create', 'store', 'ticketsUser'];
 
         $this->middleware('auth')->except($routes);
         $this->middleware('role:admin')->except($routes);
-        // $this->middleware('forbid-banned-user')->except($route);
+        // $this->middleware('forbid-banned-user')->except($route); // TODO: build up and register the middleware.
 
         $this->helpdeskRepository = $helpdeskRepository;
-        $this->categoryRepository = $categoryRepository;
+		$this->categoryRepository = $categoryRepository;
+		$this->statusRepository   = $statusRepository;
+		$this->priorityRepository = $priorityRepository;
     }
 
     /**
@@ -125,8 +133,12 @@ class HelpdeskController extends Controller
      */
     public function store(HelpdeskValidator $input): RedirectResponse
     {
-        // TODO: implementatie:  priority, status
-        $input->merge(['author_id' => auth()->user()->id]);
+        $input->merge([
+			// TODO: implementatie:  priority, status
+			'author_id' => auth()->user()->id
+			//! 'priority'  => $this->priorityRepository->
+			//! 'status'    => $this->statusRepository->
+		]);
 
         if ($this->helpdeskRepository->create($input->except['_token'])) {
             flash("Uw helpdesk ticket is opgeslagen. En zal spoedig behandeld worden.")->success();

@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Status;
 use ActivismeBE\DatabaseLayering\Repositories\Contracts\RepositoryInterface;
 use ActivismeBE\DatabaseLayering\Repositories\Eloquent\Repository;
-use App\Status;
 
 /**
  * Class StatusRepository
