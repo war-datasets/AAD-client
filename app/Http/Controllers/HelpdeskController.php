@@ -103,6 +103,8 @@ class HelpdeskController extends Controller
             $ticket->categories()->sync([]);
             flash('Het helpdesk ticket is verwijderd uit het systeem.')->success();
         }
+
+        return redirect()->back(302);
     }
 
     /**
