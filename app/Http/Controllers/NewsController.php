@@ -33,9 +33,7 @@ class NewsController extends Controller
      * @return void
      */
     public function __construct(
-        NewsRepository      $newsRepository,
-        CategoryRepository  $categoryRepository,
-        UsersRepository     $usersRepository
+        NewsRepository $newsRepository, CategoryRepository $categoryRepository, UsersRepository $usersRepository
     ) {
         $routes = ['show', 'index'];
 

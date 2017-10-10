@@ -72,7 +72,7 @@ class AccountController extends Controller
         }
 
         if ($this->usersRepository->update($input->except(['_token', 'avatar']), auth()->user()->id)) {
-            flash('Wij hebben uw account informatie aangepast.')->success();
+            flash(trans('flash-messages.account-change-info'))->success();
         }
 
         return redirect()->route('account.settings');
@@ -87,7 +87,7 @@ class AccountController extends Controller
     public function updateSecurity(AccountSecurityValidator $input): RedirectResponse
     {
         if ($this->usersRepository->update(['password' => bcrypt($input->password)], auth()->user()->id)) {
-            flash("Wij hebben je account beveiliging aangepast.")->success();
+            flash(trans('flash-messages.account-change-security'))->success();
         }
 
         return back(302);
