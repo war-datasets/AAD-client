@@ -76,9 +76,8 @@ class NewsController extends Controller
      */
     public function show($newsId): View
     {
-        return view('news.show', [
-            'message' => $this->newsRepository->with(['author', 'categories'])->find($newsId)
-        ]);
+        $message =  $this->newsRepository->with(['author', 'categories'])->find($newsId) ?: abort(404);
+        return view('news.show', compact('message'));
     }
 
     /**

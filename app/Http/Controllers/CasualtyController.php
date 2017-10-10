@@ -91,6 +91,19 @@ class CasualtyController extends Controller
      */
     public function search(Request $input): View
     {
+        if ($input->dataset == 'vietnam') {
+            return view('casualties.index', [
+                'count'      => '',
+                'casualties' => '',
+                'selector'   => '',
+            ]);
+        }
 
+        // Dataset is not vietnam. So display the results based on the korean dataset.
+        return view('casualties.index', [
+            'count'      => '',
+            'casualties' => '',
+            'selector'   => '',
+        ]);
     }
 }
