@@ -19,6 +19,7 @@ class NewsPagesTest extends TestCase
     }
 
     /**
+     * @test
      * @covers \App\Http\Controllers\NewsController::show()
      */
     public function testShowPage()
@@ -30,6 +31,7 @@ class NewsPagesTest extends TestCase
     }
 
     /**
+     * @test
      * @covers \App\Http\Controllers\NewsController::search()
      */
     public function testSearchPageFeature()
@@ -39,6 +41,7 @@ class NewsPagesTest extends TestCase
     }
 
     /**
+     * @test
      * @covers \App\Http\Controllers\NewsController::create()
      */
     public function testCreatePage()
@@ -60,5 +63,29 @@ class NewsPagesTest extends TestCase
 
         // Test unauthenticated access
         $this->get(route('news.create'))->assertRedirect('/login');
+    }
+
+    /**
+     * @test
+     * @covers \App\Http\Controllers\NewsController::destroy()
+     */
+    public function testDeleteMessaage()
+    {
+        $user  = $this->createUser();
+        $admin = $this->createAdmin();
+        $news  = factory(News::class)->create();
+
+        // Unauthenticated access
+        $this->get(route('news.delete', $news))->assertRedirect('/login');
+
+        // Access as normal user.
+        $this->actingAs($user)
+            ->assertAuthenticatedAs($user)
+            ->get(route('news.delete', $news))->assertStatus(403);
+
+        $this->actingAs($admin)
+            ->assertAuthenticatedAs($admin)
+            ->get(route('news.delete', $news))
+            ->assertStatus(200);
     }
 }

@@ -95,6 +95,12 @@ class HelpdeskController extends Controller
         return back(302);
     }
 
+    /**
+     * Delete a helpdesk ticket out off the database.
+     *
+     * @param  integer $helpdeskId The pimary key for the database table.
+     * @return RedirectResponse
+     */
     public function delete($helpdeskId): RedirectResponse
     {
         $ticket = $this->helpdeskRepository->find($helpdeskId);
