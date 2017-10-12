@@ -38,10 +38,7 @@ class VietnamCasualtyController extends ApiGuardController
     public function index()
     {
         if ($this->vietnamCasualtyRepository->entity()->count() === 0) {
-            return $this->response->withArray([
-                'http_code' => $this->response->getStatusCode(),
-                'message'   => trans('api-controller.no-vietnam-casualties')
-            ]);
+            return $this->response->errorNotFound();
         }
 
         return $this->response->withPaginator(
@@ -55,8 +52,14 @@ class VietnamCasualtyController extends ApiGuardController
      * @see    TODO: Document vietnam casualty show end point.
      * @return \Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function show()
+    public function show($serviceNo)
     {
+        $casualty = $this->vietnamCasualtyRepository->findBy('service_no', $serviceNo);
 
+        if (count($casualty) > 0) {
+            return $this->response->withItem($casualty, new VietnamCasualtyTransformer);
+        }
+
+        return $this->response->errorNotFound();
     }
 }

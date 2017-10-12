@@ -36,11 +36,11 @@ class VietnamCasualtyTransformer extends TransformerAbstract
                 'name' => $casualty->religion_name
             ],
             'race'                  => [
-                'name' => $casualty->name,
+                'name' => $casualty->race_name,
                 'omb'  => $casualty->race_omb,
             ],
             'ethnic'                => [
-                'short_name' => $casualty->short_name,
+                'short_name' => $casualty->ethnic_name,
                 'group_name' => $casualty->ethnic_group_name,
             ],
             'military_rank'         => $casualty->rank_rate,
@@ -68,18 +68,18 @@ class VietnamCasualtyTransformer extends TransformerAbstract
             ],
             'casualty_data'             => [
                 'type_name'             => $casualty->casualty_type_name,
-                'category'              => $casualty->category,
+                'category'              => $casualty->casualty_category,
                 'category_short_name'   => $casualty->csn,
                 'reason'                => $casualty->casualty_reason_name,
                 'circumstances'         => $casualty->cas_circumstances,
                 'city'                  => $casualty->cas_city,
                 'state_or_province'     => $casualty->cas_st,
-                'region'                => $casualty->region_code,
+                'region'                => $casualty->cas_region_code,
                 'country'               => [
-                    'code' => $casualty->ctry,
-                    'name' => $casualty->country_or_water_name,
+                    'from' => $casualty->cas_ctry,
+                    'fallen' => $casualty->country_or_water_name,
                 ],
-                'closure_name'          => $casualty->closure_name,
+                'closure_name'          => $casualty->casualty_closure_name,
             ],
             'location'              => [
                 'oitp'          => $casualty->oitp,

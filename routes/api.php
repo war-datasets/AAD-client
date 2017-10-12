@@ -13,4 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('casualties/vietname/all', 'Api\VietnamCasualtyController@index');
+Route::get('casualties/vietnam/all', 'Api\VietnamCasualtyController@index');
+Route::get('casualties/vietnam/show/{id}', 'Api\VietnamCasualtyController@show');
