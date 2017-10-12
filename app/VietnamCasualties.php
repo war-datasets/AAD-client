@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string         $birth_date             The brith date from the victim
  * @property string         $g                      The gender from the victim
  * @property string         $hor_city               Home of record city
- * @property string         $hor_county             Home of record country
+ * @property string         $hor_county             Home of record county
  * @property string         $hor_cntry              Home of record country code
  * @property string         $hor_st                 Home of record State or province code
  * @property string         $state_prv_nm           State or Province name
@@ -50,7 +50,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string         $oi_location            Operation or Incident location
  * @property string         $close_dt               Closure date
  * @property string         $aircraft               Aircraft type from the casualty
- * @property string         $h                      Hostie or Non-Hostile Death Indicator
+ * @property string         $h                      Hostile or Non-Hostile Death Indicator
  * @property string         $casualty_type_name     Casualty type name
  * @property string         $casualty_category      Casualty category nae
  * @property string         $casualty_reason_name   Incident Casualty reason name

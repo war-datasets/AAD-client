@@ -106,4 +106,22 @@ class CasualtyController extends Controller
             'selector'   => '',
         ]);
     }
+
+    /**
+     * [SHARED]: The edit form for the casualty.
+     *
+     * @param  string $serviceNo The military service number from the victim.
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function edit($serviceNo)
+    {
+        $casualty = $this->vietnamCasualtyRepository->findBy('service_no', $serviceNo);
+
+        if (count($casualty) == 0) {
+            $casualty = $this->koreanCasualtyRepository->findBy('service_no', $serviceNo);
+        }
+
+        return view('casualties.edit', compact('casualty'));
+    }
+
 }

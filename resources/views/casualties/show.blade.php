@@ -10,11 +10,13 @@
             <div class="col-md-9">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <strong>{{ $casualty->oi_name }}:</strong>
-                        <span class="pull-right">
-                            <code>{{ $casualty->service_no }}</code>
-                            {{ ucfirst($casualty->member_name) }}
-                        </span>
+                        <code>{{ $casualty->service_no }}</code>
+                        {{ ucfirst($casualty->member_name) }}
+
+                        <a href="{{ route('casualties.edit', ['service_no' => $casualty->service_no]) }}" class="btn btn-danger btn-xs pull-right">
+                            <span class="fa fa-pencil" aria-hidden="true"></span>
+                            Edit casualty
+                        </a>
                     </div>
 
                     <div class="panel-body">
