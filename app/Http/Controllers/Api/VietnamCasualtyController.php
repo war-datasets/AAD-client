@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Repositories\KoreanCasualtyRepository;
+use App\Http\Transformers\VietnamCasualtyTransformer;
 use App\Repositories\VietnamCasualtyRepository;
-use App\VietnamCasualties;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 
 /**
@@ -14,7 +13,7 @@ use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
  * @license MIT LICENSE
  * @package App\Http\Controllers\Api
  */
-class CasualtyController extends ApiGuardController
+class VietnamCasualtyController extends ApiGuardController
 {
     private $vietnamCasualtyRepository;
 
@@ -26,27 +25,38 @@ class CasualtyController extends ApiGuardController
      */
     public function __construct(VietnamCasualtyRepository $vietnamCasualtyRepository)
     {
-        $this->vietnamcasualtyRepository = $vietnamCasualtyRepository;
+        parent::__construct();
+        $this->vietnamCasualtyRepository = $vietnamCasualtyRepository;
     }
 
     /**
      * The index method for the Vietnam casualty side
      *
+     * @see    TODO: Document vietnam casualty index endpoint.
      * @return \Illuminate\Contracts\Routing\ResponseFactory
      */
     public function index()
     {
-        $baseModel = $this->vietnamCasualtyRepository;
-
-        if ($baseModel->count() === 0) {
+        if ($this->vietnamCasualtyRepository->entity()->count() === 0) {
             return $this->response->withArray([
                 'http_code' => $this->response->getStatusCode(),
-                'messages'  => trans('api-controller.no-vietnam-casualties')
+                'message'   => trans('api-controller.no-vietnam-casualties')
             ]);
         }
 
         return $this->response->withPaginator(
-            $baseModel->paginate(50), new VietnamCasualtiesTransformer
+            $this->vietnamCasualtyRepository->paginate(50), new VietnamCasualtyTransformer
         );
+    }
+
+    /**
+     * Show a specific vietnam casualty.
+     *
+     * @see    TODO: Document vietnam casualty show end point.
+     * @return \Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function show()
+    {
+
     }
 }
