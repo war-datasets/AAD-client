@@ -15,7 +15,7 @@ class ExtendApiKeyTable extends Migration
     {
         Schema::table('api_keys', function (Blueprint $table) {
             $table->string('service')->default('unknown');
-            $table->string('blacked')->default('N');
+            $table->string('blocked')->default('N');
         });
     }
 

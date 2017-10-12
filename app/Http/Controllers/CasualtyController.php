@@ -25,8 +25,7 @@ class CasualtyController extends Controller
      * @return void
      */
     public function __construct(
-        KoreanCasualtyRepository $koreanCasualtyRepository,
-        VietnamCasualtyRepository $vietnamCasualtyRepository
+        KoreanCasualtyRepository $koreanCasualtyRepository, VietnamCasualtyRepository $vietnamCasualtyRepository
     ) {
         $this->vietnamCasualtyRepository = $vietnamCasualtyRepository;
         $this->koreanCasualtyRepository  = $koreanCasualtyRepository;
@@ -84,8 +83,27 @@ class CasualtyController extends Controller
         ]);
     }
 
+    /**
+     * Search for a specific record in the database.
+     *
+     * @param  Request $input The user given input data. (unvalidated)
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function search(Request $input): View
     {
+        if ($input->dataset == 'vietnam') {
+            return view('casualties.index', [
+                'count'      => '',
+                'casualties' => '',
+                'selector'   => '',
+            ]);
+        }
 
+        // Dataset is not vietnam. So display the results based on the korean dataset.
+        return view('casualties.index', [
+            'count'      => '',
+            'casualties' => '',
+            'selector'   => '',
+        ]);
     }
 }

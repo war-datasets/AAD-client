@@ -89,20 +89,28 @@ class HelpdeskController extends Controller
         // TODO: Register the route in the AAD Client.
 
         if ($this->helpdeskRepository->update(['closed' => $status], $ticketId)) {
-            flash("Het ticket zijn status is aangepast.")->success();
+            flash(trans('flash-messages.helpdesk-ticket-change'))->success();
         }
 
         return back(302);
     }
 
+    /**
+     * Delete a helpdesk ticket out off the database.
+     *
+     * @param  integer $helpdeskId The pimary key for the database table.
+     * @return RedirectResponse
+     */
     public function delete($helpdeskId): RedirectResponse
     {
         $ticket = $this->helpdeskRepository->find($helpdeskId);
 
         if ($this->helpdeskRepository->delete($helpdeskId)) {
-            $tickets->categories()->sync([]);
-            flash('Het helpdesk ticket is verwijderd uit het systeem.')->success();
+            $ticket->categories()->sync([]);
+            flash(trans('flash-messages.helpdesk-delete'))->success();
         }
+
+        return redirect()->back(302);
     }
 
     /**
@@ -114,7 +122,7 @@ class HelpdeskController extends Controller
     public function store(HelpdeskValidator $input): RedirectResponse
     {
         if ($this->helpdeskRepository->create($input->except['_token'])) {
-            flash("Uw helpdesk ticket is opgeslagen. En zal spoedig behandeld worden.")->success();
+            flash(trans('flash-messages.helpdesk-store'))->success();
         }
 
         return back(302);
