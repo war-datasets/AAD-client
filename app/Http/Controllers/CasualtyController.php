@@ -121,12 +121,11 @@ class CasualtyController extends Controller
     public function edit($serviceNo)
     {
         $casualty = $this->vietnamCasualtyRepository->findBy('service_no', $serviceNo);
+        $services = $this->serviceRepository->all(['id', 'name', 'code']);
 
         if (count($casualty) == 0) {
             $casualty = $this->koreanCasualtyRepository->findBy('service_no', $serviceNo);
         }
-
-        $services = $this->serviceRepository->all(['id', 'name', 'code']);
 
         return view('casualties.edit', compact('casualty', 'services'));
     }

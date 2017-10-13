@@ -60,9 +60,7 @@ class HelpdeskController extends Controller
      */
     public function index(): View
     {
-        return view('helpdesk.index', [
-            'tickets' => $this->helpdeskRepository->paginate(20)
-        ]);
+        return view('helpdesk.index', ['tickets' => $this->helpdeskRepository->paginate(20)]);
     }
 
     /**
@@ -73,10 +71,7 @@ class HelpdeskController extends Controller
     public function search(Request $input): View
     {
         $this->helpdeskRepository->pushCriteria(new SearchHelpdesk($input->get('term')));
-
-        return view('helpdesk.index', [
-            'tickets' => $this->helpdeskRepository->paginate(20)
-        ]);
+        return view('helpdesk.index', ['tickets' => $this->helpdeskRepository->paginate(20)]);
     }
 
     /**
