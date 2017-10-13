@@ -50,6 +50,8 @@ class VietnamCasualtyController extends ApiGuardController
      * Show a specific vietnam casualty.
      *
      * @see    TODO: Document vietnam casualty show end point.
+     *
+     * @param  string $serviceNo The service number from the casualty.
      * @return \Illuminate\Contracts\Routing\ResponseFactory
      */
     public function show($serviceNo)
