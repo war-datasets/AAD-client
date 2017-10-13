@@ -60,8 +60,56 @@
                                             Data about their military service.
                                         </span>
                                     </div>
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label for="">Service number:</label>
+                                        <input type="text" class="form-control" value="{{ $casualty->service_no }}">
+                                    </div>
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label>Service:</label>
+                                        <input type="text" class="form-control" value="{{ $casualty->service_name }}">
+                                    </div>
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label for="">Paygrade:</label>
+                                        <input class="form-control" value="{{ $casualty->pg }}" type="text">
+                                    </div>
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label>Rank/Rate:</label>
+                                        <input value="{{ $casualty->rank_rate }}" class="form-control" type="text">
+                                    </div>
+                                    <div class="col-md-offset-4 col-md-4" style="margin-bottom: 8px;">
+                                        <label>Unit name:</label>
+                                        <input value="{{ $casualty->unit_name }}" class="form-control" type="text">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Occupation:</label>
+                                        <input value="{{ $casualty->occupation_name }}" class="form-control" type="text">
+                                    </div>
                                 </div>
                             </li> {{-- /Military service data --}}
+
+                            <li class="list-group-item"> {{-- Operation name --}}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h4>Operation data:</h4>
+                                        <span class="help-block">Information about the military warzone or operation.</span>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Type code:</label>
+                                        <input type="text" class="form-control" value="{{ $casualty->oitp }}">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Name:</label>
+                                        <input type="text" class="form-control" value="{{ $casualty->oi_name }}">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Location:</label>
+                                        <inpyt type="text" class="form-control" value="{{ $casualty->oi_location }}">
+                                    </div>
+                                </div>
+                            </li> {{-- /Operation data --}}
 
                             <li class="list-group-item"> {{-- casualty data --}}
                                 <div class="row">
@@ -69,8 +117,62 @@
                                         <h4>Casualty information:</h4>
                                         <span class="help-block">Data about the casualty circumstances.</span>
                                     </div>
+
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label>Circumstamces:</label>
+                                        <input value="{{ $casualty->cas_circumstances }}" class="form-control" type="text">
+                                    </div>
+
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label>Stad:</label>
+                                        <input value="{{ $casualty->cas_city }}" class="form-control" type="text">
+                                    </div>
+
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label>State or Province</label>
+                                        <input value="{{ $casualty->cas_st }}" type="text" class="form-control">
+                                    </div>
+
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label>Region name:</label>
+                                        <input value="{{ $casualty->cas_region_name }}" type="text" class="form-control">
+                                    </div>
                                 </div>
                             </li> {{-- /Casualty data --}}
+
+                            <li class="list-group-item"> {{-- Incident data --}}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h4>Incident information:</h4>
+                                        <span class="help-block">If the casualty has died in an incident.</span>
+                                    </div>
+
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label> Category short name.</label>
+                                        <input value="{{ $casualty->i_csn }}" class="form-control" type="text">
+                                    </div>
+
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label>Incident category</label>
+                                        <input type="text" value="{{ $casualty->incident_category }}" class="form-control">
+                                    </div>
+
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label> Incident status date:</label>
+                                        <input type="text" value="{{ date('Y/m/d', strtotime($casualty->i_status_dt)) }}" class="form-control">
+                                    </div>
+
+                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                        <label> Incident Aircraft</label>
+                                        <input type="text" value="{{ $casualty->i_aircraft }}" class="form-control">
+                                    </div>
+
+                                    <div class="col-md-offset-4 col-md-4" style="margin-bottom: 8px;">
+                                        <label> Hostile death</label>
+                                        <input type="text" value="{{ $casualty->i_h }}" class="form-control">
+                                    </div>
+                                </div>
+                            </li> {{-- /Incident data --}}
                         </ul>
 
                         <div class="panel-footer text-right">
