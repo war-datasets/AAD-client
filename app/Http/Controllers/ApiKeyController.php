@@ -41,7 +41,7 @@ class ApiKeyController extends Controller
     public function create(ApiKeyValidator $input): RedirectResponse
     {
         if ($apiKey = $this->apiKeyRepository->createKey($input->service)) {
-            flash("De api sleutel: {$apiKey} is aangemaakt.")->success();
+            flash(trans('flash-messages.apikey-new-key', ['key' => $apiKey]))->success();
             session()->flash('tab-status', 'api-key');
         }
 
@@ -60,7 +60,7 @@ class ApiKeyController extends Controller
             if ((int) count($this->apiKeyRepository->find($keyId)) === 1) {
                 $this->apiKeyRepository->delete($keyId);
 
-                flash('De API sleutel is verwijderd.')->success();
+                flash(trans('flash-messages.apikey-delete'))->success();
                 session()->flash('tab-status', 'api-key');
             }
 

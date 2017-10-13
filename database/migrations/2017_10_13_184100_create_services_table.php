@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ExtendApiKeyTable extends Migration
+class CreateServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class ExtendApiKeyTable extends Migration
      */
     public function up()
     {
-        Schema::table('api_keys', function (Blueprint $table) {
-            $table->string('service')->default('unknown');
-            $table->string('blocked')->default('N');
+        Schema::create('services', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('code', 1);
+            $table->string('name', 120);
+            $table->timestamps();
         });
     }
 
@@ -26,8 +28,6 @@ class ExtendApiKeyTable extends Migration
      */
     public function down()
     {
-        Schema::table('api_keys', function (Blueprint $table) {
-            $table->dropColumn(['service', 'blocked']);
-        });
+        Schema::dropIfExists('services');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\KoreanCasualtyRepository;
+use App\Repositories\ServiceRepository;
 use App\Repositories\VietnamCasualtyRepository;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -16,20 +17,23 @@ class CasualtyController extends Controller
 {
     private $koreanCasualtyRepository;  /** @var KoreanCasualtyRepository  */
     private $vietnamCasualtyRepository; /** @var VietnamCasualtyRepository */
+    private $serviceRepository;         /** @var ServiceRepository         */
 
     /**
      * CasualtyController constructor.
      *
      * @param  KoreanCasualtyRepository  $koreanCasualtyRepository
      * @param  VietnamCasualtyRepository $vietnamCasualtyRepository
+     * @param  ServiceRepository         $serviceRepository
      * @return void
      */
     public function __construct(
-        KoreanCasualtyRepository $koreanCasualtyRepository,
-        VietnamCasualtyRepository $vietnamCasualtyRepository
+        KoreanCasualtyRepository $koreanCasualtyRepository, VietnamCasualtyRepository $vietnamCasualtyRepository,
+        ServiceRepository        $serviceRepository
     ) {
         $this->vietnamCasualtyRepository = $vietnamCasualtyRepository;
         $this->koreanCasualtyRepository  = $koreanCasualtyRepository;
+        $this->serviceRepository         = $serviceRepository;
     }
 
     /**
@@ -84,15 +88,47 @@ class CasualtyController extends Controller
         ]);
     }
 
-	/**
-	 * Method for search a specific casualty. Bases on name and service number.
-	 *
-	 * @param  Request $input The instance to get the POST and GET data.
-	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-	 */
+    /**
+     * Search for a specific record in the database.
+     *
+     * @param  Request $input The user given input data. (unvalidated)
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function search(Request $input): View
     {
-		// TODO: Build up the controller 
-		//! View is specified by the DCAS format. And for now we can use the view from Korea and Vietnam.
+        if ($input->dataset == 'vietnam') {
+            return view('casualties.index', [
+                'count'      => '',
+                'casualties' => '',
+                'selector'   => '',
+            ]);
+        }
+
+        // Dataset is not vietnam. So display the results based on the korean dataset.
+        return view('casualties.index', [
+            'count'      => '',
+            'casualties' => '',
+            'selector'   => '',
+        ]);
     }
+
+    /**
+     * [SHARED]: The edit form for the casualty.
+     *
+     * @param  string $serviceNo The military service number from the victim.
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function edit($serviceNo)
+    {
+        $casualty = $this->vietnamCasualtyRepository->findBy('service_no', $serviceNo);
+
+        if (count($casualty) == 0) {
+            $casualty = $this->koreanCasualtyRepository->findBy('service_no', $serviceNo);
+        }
+
+        $services = $this->serviceRepository->all(['id', 'name', 'code']);
+
+        return view('casualties.edit', compact('casualty', 'services'));
+    }
+
 }

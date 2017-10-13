@@ -57,14 +57,15 @@ class AccountController extends Controller
     public function updateInfo(AccountInfoValidator $input): RedirectResponse
     {
         if ($input->hasFile('avatar')) {
-            $avatar = public_path(auth()->user()->profile_image);
+            $user   = auth()->user();
+            $avatar = public_path($user->profile_image);
 
-            if (file_exists($avatar) && auth()->user()->profile_image != 'avatars/default.jpg') {
-                unlink(public_path(auth()->user()->profile_image));
+            if (file_exists($avatar) && $user->profile_image != 'avatars/default.jpg') {
+                unlink(public_path($user->profile_image)); // Delete image out the filesystem.
             }
 
             $image      = $input->file('avatar');
-            $filename   = time() . '.' . $image->getClientOriginalExtension();
+            $filename   = "user-{$user->id}.{$image->getClientOriginalExtension()}";
             $path       = public_path('avatars/' . $filename);
             Image::make($image->getRealPath())->resize(160, 160)->save($path);
 
@@ -72,7 +73,7 @@ class AccountController extends Controller
         }
 
         if ($this->usersRepository->update($input->except(['_token', 'avatar']), auth()->user()->id)) {
-            flash('Wij hebben uw account informatie aangepast.')->success();
+            flash(trans('flash-messages.account-change-info'))->success();
         }
 
         return redirect()->route('account.settings');
@@ -87,7 +88,7 @@ class AccountController extends Controller
     public function updateSecurity(AccountSecurityValidator $input): RedirectResponse
     {
         if ($this->usersRepository->update(['password' => bcrypt($input->password)], auth()->user()->id)) {
-            flash("Wij hebben je account beveiliging aangepast.")->success();
+            flash(trans('flash-messages.account-change-security'))->success();
         }
 
         return back(302);

@@ -36,6 +36,7 @@ Route::get('/casualties/vietnam', 'CasualtyController@indexVietnam')->name('casu
 Route::get('/casualties/search', 'CasualtyController@search')->name('casualties.search');
 Route::get('/casualties/show/korea/{id}', 'CasualtyController@showKorea')->name('casualties.show.korea');
 Route::get('/casualties/show/vietname/{id}', 'CasualtyController@showVietnam')->name('casualties.show.vietnam');
+Route::get('/victim/edit/{service_no}', 'CasualtyController@edit')->name('casualties.edit');
 
 // API access tokens
 Route::post('/create/key', 'ApiKeyController@create')->name('api.key.create');

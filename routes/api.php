@@ -13,6 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('casualties/vietnam/all', 'Api\VietnamCasualtyController@index');
+Route::get('casualties/vietnam/show/{id}', 'Api\VietnamCasualtyController@show');

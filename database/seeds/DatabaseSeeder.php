@@ -30,8 +30,11 @@ class DatabaseSeeder extends Seeder
         $this->command->info("User email: {$user->email}");
         $this->command->info("User password: secret");
         $this->command->info('user is assigned with the admin role.');
-
+      
         // Additional seeders.
         $this->call(HelpdeskCategorySeeder::class);
+        $this->call(SeedServicesTable::class);
+        $this->call(SeedRanksTable::class);
+        $this->call(SeedPayGradeTable::class);
     }
 }
