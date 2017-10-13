@@ -66,7 +66,16 @@
                                     </div>
                                     <div class="col-md-4" style="margin-bottom: 8px;">
                                         <label>Service:</label>
-                                        <input type="text" class="form-control" value="{{ $casualty->service_name }}">
+
+                                        <select name="" id="" class="form-control">
+                                            <option value="">-- Select the service type --</option>
+
+                                            @foreach ($services as $service)
+                                                <option value="{{ $service->code }}" @if (strtoupper($casualty->s) == strtoupper($service->code)) selected @endif>
+                                                    {{ $service->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-4" style="margin-bottom: 8px;">
                                         <label for="">Paygrade:</label>

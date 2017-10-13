@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\KoreanCasualtyRepository;
+use App\Repositories\ServiceRepository;
 use App\Repositories\VietnamCasualtyRepository;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -16,19 +17,23 @@ class CasualtyController extends Controller
 {
     private $koreanCasualtyRepository;  /** @var KoreanCasualtyRepository  */
     private $vietnamCasualtyRepository; /** @var VietnamCasualtyRepository */
+    private $serviceRepository;         /** @var ServiceRepository         */
 
     /**
      * CasualtyController constructor.
      *
      * @param  KoreanCasualtyRepository  $koreanCasualtyRepository
      * @param  VietnamCasualtyRepository $vietnamCasualtyRepository
+     * @param  ServiceRepository         $serviceRepository
      * @return void
      */
     public function __construct(
-        KoreanCasualtyRepository $koreanCasualtyRepository, VietnamCasualtyRepository $vietnamCasualtyRepository
+        KoreanCasualtyRepository $koreanCasualtyRepository, VietnamCasualtyRepository $vietnamCasualtyRepository,
+        ServiceRepository        $serviceRepository
     ) {
         $this->vietnamCasualtyRepository = $vietnamCasualtyRepository;
         $this->koreanCasualtyRepository  = $koreanCasualtyRepository;
+        $this->serviceRepository         = $serviceRepository;
     }
 
     /**
@@ -121,7 +126,9 @@ class CasualtyController extends Controller
             $casualty = $this->koreanCasualtyRepository->findBy('service_no', $serviceNo);
         }
 
-        return view('casualties.edit', compact('casualty'));
+        $services = $this->serviceRepository->all(['id', 'name', 'code']);
+
+        return view('casualties.edit', compact('casualty', 'services'));
     }
 
 }
