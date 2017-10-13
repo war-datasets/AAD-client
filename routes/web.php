@@ -27,6 +27,8 @@ Route::post('/account/info', 'AccountController@updateInfo')->name('account.sett
 Route::post('/account/password', 'AccountController@updateSecurity')->name('account.settings.security');
 
 // Helpdesk routes
+Route::get('/helpdesk/create', 'HelpdeskController@create')->name('helpdesk.create');
+Route::post('/helpdesk/store', 'HelpdeskController@store')->name('helpdesk.store');
 
 // Causalty routes
 Route::get('/casualties/korea', 'CasualtyController@indexKorea')->name('casualties.index.korea');

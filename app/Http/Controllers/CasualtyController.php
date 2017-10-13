@@ -79,7 +79,7 @@ class CasualtyController extends Controller
      * Get a specific vietnam casualty by his service number.
      *
      * @param  string $serviceNo The service number for the casualty.
-     * @return |Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showVietnam($serviceNo): View
     {

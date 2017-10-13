@@ -33,6 +33,8 @@ class SearchHelpdesk extends Criteria
      */
     public function apply($model, RepositoryInterface $repository)
     {
+
+		// TODO: Build up the query. 
         return $model;
     }
 }

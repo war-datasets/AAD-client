@@ -121,7 +121,7 @@
                                                 <span class="fa fa-question"></span> Helpdesk
                                             </a>
                                         @else
-                                            <a href="">
+                                            <a href="{{ route('helpdesk.create') }}">
                                                 <span class="fa fa-chevron-right" aria-hidden="true"></span> Meld een probleem
                                             </a>
                                         @endif

@@ -4,6 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class HelpdeskValidator
+ *
+ * @package App\Http\Requests
+ */
 class HelpdeskValidator extends FormRequest
 {
     /**
@@ -13,7 +18,7 @@ class HelpdeskValidator extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +29,9 @@ class HelpdeskValidator extends FormRequest
     public function rules()
     {
         return [
-            //
+            'description' => 'required',
+            'subject'     => 'required',
+            'category'    => 'required'
         ];
     }
 }
