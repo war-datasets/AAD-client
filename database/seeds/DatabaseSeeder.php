@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $user       = factory(App\User::class)->create();
 
         User::find($user->id)->assignRole($adminRole->name);
+        $this->call(SeedServicesTable::class);
 
         $this->command->info("User email: {$user->email}");
         $this->command->info("User password: secret");
