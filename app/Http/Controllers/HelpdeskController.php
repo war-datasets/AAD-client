@@ -29,9 +29,8 @@ class HelpdeskController extends Controller
      *
      * @param  HelpdeskRepository $helpdeskRepository
      * @param  CategoryRepository $categoryRepository
-     *
-     * @todo Implement PriorityRepository
-     * @todo Implement StatusRepository
+     * @param  StatusRepository   $statusRepository
+     * @param  PriorityRepository $priorityRepository
      *
      * @return void
      */
