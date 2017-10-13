@@ -79,7 +79,15 @@
                                     </div>
                                     <div class="col-md-4" style="margin-bottom: 8px;">
                                         <label for="">Paygrade:</label>
-                                        <input class="form-control" value="{{ $casualty->pg }}" type="text">
+                                        <select name="" id="" class="form-control">
+                                            <option value="">-- Select the military paygrade --</option>
+
+                                            @foreach($payGrades as $paygrade)
+                                                <option value="{{ $paygrade->id }}" @if (strtoupper($casualty->pg) === strtoupper($paygrade->code)) selected @endif>
+                                                    {{ $paygrade->code }} - ({{ $paygrade->group_name }})
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-4" style="margin-bottom: 8px;">
                                         <label>Rank/Rate:</label>

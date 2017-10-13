@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\KoreanCasualtyRepository;
+use App\Repositories\PayGradeRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\VietnamCasualtyRepository;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class CasualtyController extends Controller
     private $koreanCasualtyRepository;  /** @var KoreanCasualtyRepository  */
     private $vietnamCasualtyRepository; /** @var VietnamCasualtyRepository */
     private $serviceRepository;         /** @var ServiceRepository         */
+    private $payGradeRepository;        /** @var PayGradeRepository        */
 
     /**
      * CasualtyController constructor.
@@ -29,11 +31,12 @@ class CasualtyController extends Controller
      */
     public function __construct(
         KoreanCasualtyRepository $koreanCasualtyRepository, VietnamCasualtyRepository $vietnamCasualtyRepository,
-        ServiceRepository        $serviceRepository
+        ServiceRepository        $serviceRepository,        PayGradeRepository        $payGradeRepository
     ) {
         $this->vietnamCasualtyRepository = $vietnamCasualtyRepository;
         $this->koreanCasualtyRepository  = $koreanCasualtyRepository;
         $this->serviceRepository         = $serviceRepository;
+        $this->payGradeRepository        = $payGradeRepository;
     }
 
     /**
@@ -120,14 +123,15 @@ class CasualtyController extends Controller
      */
     public function edit($serviceNo)
     {
-        $casualty = $this->vietnamCasualtyRepository->findBy('service_no', $serviceNo);
-        $services = $this->serviceRepository->all(['id', 'name', 'code']);
+        $casualty  = $this->vietnamCasualtyRepository->findBy('service_no', $serviceNo);
+        $services  = $this->serviceRepository->all(['id', 'name', 'code']);
+        $payGrades = $this->payGradeRepository->all();
 
         if (count($casualty) == 0) {
             $casualty = $this->koreanCasualtyRepository->findBy('service_no', $serviceNo);
         }
 
-        return view('casualties.edit', compact('casualty', 'services'));
+        return view('casualties.edit', compact('casualty', 'services', 'payGrades'));
     }
 
 }
