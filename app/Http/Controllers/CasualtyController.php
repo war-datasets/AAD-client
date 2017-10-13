@@ -129,6 +129,8 @@ class CasualtyController extends Controller
 
         if (count($casualty) == 0) {
             $casualty = $this->koreanCasualtyRepository->findBy('service_no', $serviceNo);
+        } else {
+            abort(404); // No casualty found in the system. So throw an 404
         }
 
         return view('casualties.edit', compact('casualty', 'services', 'payGrades'));
