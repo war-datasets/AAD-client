@@ -37,7 +37,7 @@
                     <ul class="nav navbar-nav"> {{-- Left Side Of Navbar --}}
                         @if (auth()->check() && $user->hasRole('admin')) {{-- There is an authencated user. --}}
                             <li>
-                                <a href="">
+                                <a href="{{ route('users.index') }}">
                                     <span class="fa fa-users" aria-hidden="true"></span> Gebruikers
                                 </a>
                             </li>
@@ -149,8 +149,27 @@
         @yield('content')
     </div>
 
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; {{ date('Y') }} - All rights with ActivismeBE</p>
+                </div>
+                <div class="col-md-6">
+                    <ul class="bottom_ul">
+                        <li><a href="{{ route('disclaimer') }}">Disclaimer</a></li>
+                        <li><a href="{{ route('contact.index') }}">Contact us</a></li>
+                        <li><a href="#">API Docs</a></li>
+                        <li><a href="#">Github</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- Scripts --}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script>$('div.alert').not('.alert-important').delay(3000).fadeOut(350);</script> {{-- TODO: Set to asset JS file. --}}
+    @stack('scripts')
 </body>
 </html>

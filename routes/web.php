@@ -42,6 +42,9 @@ Route::get('/victim/edit/{service_no}', 'CasualtyController@edit')->name('casual
 Route::post('/create/key', 'ApiKeyController@create')->name('api.key.create');
 Route::get('/delete/key/{id}', 'ApiKeyController@destroy')->name('api.key.delete');
 
+// User routes
+Route::get('/users', 'UsersController@index')->name('users.index');
+
 // Contact routes 
 Route::get('/contact', 'ContactController@create')->name('contact.index');
 Route::post('/contact', 'ContactController@store')->name('contact.store');

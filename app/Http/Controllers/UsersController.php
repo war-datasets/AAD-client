@@ -47,9 +47,7 @@ class UsersController extends Controller
      */
     public function index(): View
     {
-        return view('users.index', [
-            'users' => $this->usersRepository->all('name', 'email', 'created_at')
-        ]);
+        return view('users.index', ['users' => $this->usersRepository->paginate(30, ['*'])]);
     }
 
     /**
