@@ -38,7 +38,17 @@
                                     @foreach ($users as $user) {{-- Loop through the users. --}}
                                         <tr>
                                             <td><strong>#{{ $user->id }}</strong></td>
-                                            <td>{{-- TODO: Implement laravel ban. --}}</td>
+                                            <td>
+                                                @if ($user->isBanned())
+                                                    <span class="label label-danger">
+                                                        <i class="fa fa-exclamation-traingle" aria-hidden="true"></i> Blocked
+                                                    </span>
+                                                @else {{-- User is active --}}
+                                                    <span class="label label-success">
+                                                        <i class="fa fa-fw fa-check" aria-hidden="true"></i> Active
+                                                    </span>
+                                                @endif
+                                            </td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->created_at->diffForHumans() }}</td>
