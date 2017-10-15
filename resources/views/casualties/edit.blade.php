@@ -77,7 +77,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                    <div class="col-md-offset-4 col-md-4" style="margin-bottom: 8px;">
                                         <label for="">Paygrade:</label>
                                         <select name="" id="" class="form-control">
                                             <option value="">-- Select the military paygrade --</option>
@@ -145,7 +145,7 @@
                                         <input value="{{ $casualty->cas_city }}" class="form-control" type="text">
                                     </div>
 
-                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                    <div class="col-md-offset-4 col-md-4" style="margin-bottom: 8px;">
                                         <label>State or Province</label>
                                         <input value="{{ $casualty->cas_st }}" type="text" class="form-control">
                                     </div>
@@ -174,7 +174,7 @@
                                         <input type="text" value="{{ $casualty->incident_category }}" class="form-control">
                                     </div>
 
-                                    <div class="col-md-4" style="margin-bottom: 8px;">
+                                    <div class="col-md-4 col-md-4" style="margin-bottom: 8px;">
                                         <label> Incident status date:</label>
                                         <input type="text" value="{{ date('Y/m/d', strtotime($casualty->i_status_dt)) }}" class="form-control">
                                     </div>
