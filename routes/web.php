@@ -54,6 +54,9 @@ Route::post('/contact', 'ContactController@store')->name('contact.store');
 Route::get('notifications', ['as' => 'notifications', 'uses' => 'NotificationController@index']);
 Route::get('notifications/markall', ['as' => 'notifications.read.all', 'uses' => 'NotificationController@markAllAsRead']);
 
+// Documentation routes
+Route::get('documentation/api', 'DocumentationController@index')->name('docs.api');
+
 // News routes
 Route::get('news', 'NewsController@index')->name('news.index');
 Route::get('news/article/{id}', 'NewsController@show')->name('news.show');

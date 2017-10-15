@@ -159,8 +159,8 @@
                     <ul class="bottom_ul">
                         <li><a href="{{ route('disclaimer') }}">Disclaimer</a></li>
                         <li><a href="{{ route('contact.index') }}">Contact us</a></li>
-                        <li><a href="#">API Docs</a></li>
-                        <li><a href="https://github.com/war-datasets/AAD-client">Github</a></li>
+                        <li><a href="{{ route('docs.api') }}">API Docs</a></li>
+                        <li><a target="_blank" href="https://github.com/war-datasets/AAD-client">Github</a></li>
                     </ul>
                 </div>
             </div>

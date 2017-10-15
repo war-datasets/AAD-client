@@ -40,7 +40,8 @@ class Helpdesk extends Model
      */
     public function categories()
     {
-        return $this->belongsTo(Categories::class, 'category');
+        return $this->belongsTo(Categories::class, 'category')
+            ->withDefault(['name' => 'Not given']);
     }
 
     /**
@@ -65,11 +66,14 @@ class Helpdesk extends Model
     }
 
     /**
-     * @todo docblock
+     * Get the status for the helpdesk ticket.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function status()
     {
-        // TODO: Build up the relation
+        return $this->belongsTo(Status::class, 'status_id')
+            ->withDefault(['name' => 'none']);
     }
 
     /**

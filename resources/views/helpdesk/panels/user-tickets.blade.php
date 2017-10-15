@@ -23,7 +23,7 @@
                     @foreach ($tickets as $ticket) {{-- Loop through the tickets --}}
                         <tr>
                             <td><strong>#{{ $ticket->id }}</strong></td>
-                            <td>{{-- $ticket->categories->name --}}</td>
+                            <td>{{ $ticket->categories->name }}</td>
                             <td>{{ $ticket->subject }}</td>
                             <td>{{ $ticket->status->name }}</td>
                             <td>{{ $ticket->updated_at->diffForHumans() }}</td>
