@@ -118,11 +118,11 @@
                                     <li>
                                         @if ($user->hasRole('admin'))
                                             <a href="">
-                                                <span class="fa fa-question"></span> Helpdesk
+                                                <span class="fa fa-fw fa-question"></span> Helpdesk
                                             </a>
                                         @else
                                             <a href="{{ route('helpdesk.create') }}">
-                                                <span class="fa fa-chevron-right" aria-hidden="true"></span> Meld een probleem
+                                                <span class="fa fa-fw fa-chevron-right" aria-hidden="true"></span> Meld een probleem
                                             </a>
                                         @endif
                                     </li>
@@ -131,7 +131,7 @@
 
                                     <li>
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            <span class="fa fa-sign-out" aria-hidden="true"></span> Afmelden
+                                            <span class="fa fa-fw fa-sign-out" aria-hidden="true"></span> Afmelden
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

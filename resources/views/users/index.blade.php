@@ -11,7 +11,7 @@
                         User management:
 
                         <div class="pull-right">
-                            <a href="" class="btn btn-xs btn-primary">
+                            <a href="{{ route('users.create') }}" class="btn btn-xs btn-primary">
                                 <span class="fa fa-plus" aria-hidden="true"></span> Create user
                             </a>
 

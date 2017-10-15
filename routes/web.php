@@ -44,6 +44,7 @@ Route::get('/delete/key/{id}', 'ApiKeyController@destroy')->name('api.key.delete
 
 // User routes
 Route::get('/users', 'UsersController@index')->name('users.index');
+Route::get('/users/create','UsersController@create')->name('users.create');
 
 // Contact routes 
 Route::get('/contact', 'ContactController@create')->name('contact.index');
