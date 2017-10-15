@@ -110,7 +110,7 @@ class CasualtyController extends Controller
         // Dataset is not vietnam. So display the results based on the korean dataset.
         return view('casualties.index', [
             'count'      => '',
-            'casualties' => '',
+            'casualties' => $this->koreanCasualtyRepository,
             'selector'   => '',
         ]);
     }

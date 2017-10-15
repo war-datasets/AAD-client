@@ -68,7 +68,7 @@ class HelpdeskController extends Controller
     public function search(Request $input): View
     {
         $this->helpdeskRepository->pushCriteria(new SearchHelpdesk($input->get('term')));
-        return view('helpdesk.index', ['tickets' => $this->helpdeskRepository->paginate(20)]);
+        return view('helpdesk.search', ['tickets' => $this->helpdeskRepository->paginate(20)]);
     }
 
     /**
@@ -78,7 +78,8 @@ class HelpdeskController extends Controller
      */
     public function create(): View
     {
-        return view('helpdesk.create', [
+        return view('helpdesk.index', [
+            'tickets'    => $this->helpdeskRepository->entity()->where('author_id', auth()->user()->id)->paginate(20),
             'categories' => $this->categoryRepository->findWhere(['module' => 'helpdesk'], ['id', 'name'])
         ]);
     }
@@ -104,7 +105,6 @@ class HelpdeskController extends Controller
     /**
      * Delete a helpdesk ticket in the system.
      *
-     * @param  integer $helpdeskId The unique identifier in the data storage.
      * @param  integer $helpdeskId The pimary key for the database table.
      * @return RedirectResponse
      */
@@ -135,7 +135,7 @@ class HelpdeskController extends Controller
 			//! 'status'    => $this->statusRepository->
 		]);
 
-        if ($this->helpdeskRepository->create($input->except['_token'])) {
+        if ($this->helpdeskRepository->create($input->except(['_token']))) {
             flash(trans('flash-messages.helpdesk-store'))->success();
         }
 
