@@ -164,9 +164,7 @@ class NewsController extends Controller
      */
     public function edit($newsId): View
     {
-        return view('news.edit', [
-            'message' => $this->newsRepository->find($newsId)
-        ]);
+        return view('news.edit', ['message' => $this->newsRepository->find($newsId)]);
     }
 
     /**

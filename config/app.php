@@ -172,6 +172,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Cog\Laravel\Ban\Providers\BanServiceProvider::class,
         Chrisbjr\ApiGuard\Providers\ApiGuardServiceProvider::class,
+        \ActivismeBE\FormHelper\FormServiceProvider::class,
 
         /*
          * Application Service Providers...

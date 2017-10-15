@@ -27,6 +27,8 @@ Route::post('/account/info', 'AccountController@updateInfo')->name('account.sett
 Route::post('/account/password', 'AccountController@updateSecurity')->name('account.settings.security');
 
 // Helpdesk routes
+Route::get('/helpdesk/create', 'HelpdeskController@create')->name('helpdesk.create');
+Route::post('/helpdesk/store', 'HelpdeskController@store')->name('helpdesk.store');
 
 // Causalty routes
 Route::get('/casualties/korea', 'CasualtyController@indexKorea')->name('casualties.index.korea');
@@ -34,10 +36,15 @@ Route::get('/casualties/vietnam', 'CasualtyController@indexVietnam')->name('casu
 Route::get('/casualties/search', 'CasualtyController@search')->name('casualties.search');
 Route::get('/casualties/show/korea/{id}', 'CasualtyController@showKorea')->name('casualties.show.korea');
 Route::get('/casualties/show/vietname/{id}', 'CasualtyController@showVietnam')->name('casualties.show.vietnam');
+Route::get('/victim/edit/{service_no}', 'CasualtyController@edit')->name('casualties.edit');
 
 // API access tokens
 Route::post('/create/key', 'ApiKeyController@create')->name('api.key.create');
 Route::get('/delete/key/{id}', 'ApiKeyController@destroy')->name('api.key.delete');
+
+// User routes
+Route::get('/users', 'UsersController@index')->name('users.index');
+Route::get('/users/create','UsersController@create')->name('users.create');
 
 // Contact routes 
 Route::get('/contact', 'ContactController@create')->name('contact.index');
@@ -46,6 +53,9 @@ Route::post('/contact', 'ContactController@store')->name('contact.store');
 // Notifications
 Route::get('notifications', ['as' => 'notifications', 'uses' => 'NotificationController@index']);
 Route::get('notifications/markall', ['as' => 'notifications.read.all', 'uses' => 'NotificationController@markAllAsRead']);
+
+// Documentation routes
+Route::get('documentation/api', 'DocumentationController@index')->name('docs.api');
 
 // News routes
 Route::get('news', 'NewsController@index')->name('news.index');

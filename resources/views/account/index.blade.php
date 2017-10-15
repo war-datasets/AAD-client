@@ -8,22 +8,22 @@
             <div class="col-md-3"> {{-- Sidebar --}}
                 <div class="list-group">
                     <a href="#info" class="list-group-item" aria-controls="info" role="tab" data-toggle="tab">
-                        <span class="fa fa-asterisk" aria-hidden="true"></span> Account informatie.
+                        <span class="fa fa-fw fa-asterisk" aria-hidden="true"></span> Account informatie.
                     </a>
 
                     <a href="#security" class="list-group-item" aria-controls="security" role="tab" data-toggle="tab">
-                        <span class="fa fa-key" aria-hidden="true"></span> Account beveiliging.
+                        <span class="fa fa-fw fa-key" aria-hidden="true"></span> Account beveiliging.
                     </a>
 
                     <a href="#api" class="list-group-item" aria-controls="api" role="tab" data-toggle="tab">
-                        <span class="fa fa-code" aria-hidden="true"></span> API access tokens
+                        <span class="fa fa-fw fa-code" aria-hidden="true"></span> API access tokens
                     </a>
                 </div>
 
                 <div class="list-group">
                     <div class="list-group">
                         <a href="" class="list-group-item list-group-item-danger">
-                            <span class="fa fa-trash" aria-hidden="true"></span>
+                            <span class="fa fa-fw fa-trash" aria-hidden="true"></span>
                             Verwijder account
                         </a>
                     </div>

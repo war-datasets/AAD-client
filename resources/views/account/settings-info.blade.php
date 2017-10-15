@@ -40,6 +40,20 @@
             </div>
 
             <div class="form-group">
+                <label class="control-label col-md-3">
+                    Uw taal: <span class="text-danger">*</span>
+                </label>
+
+                <div class="col-md-9">
+                    <select name="language" class="form-control">
+                        <option value="en" @if ($user->language == 'en') selected @endif> English </option>
+                        <option value="fr" @if ($user->language == 'fr') selected @endif> French  </option>
+                        <option value="nl" @if ($user->language == 'nl') selected @endif> Dutch   </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
                     <button type="submit" class="btn btn-sm btn-success">
                         <span class="fa fa-check" aria-hidden="true"></span> Aanpassen

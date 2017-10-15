@@ -5,6 +5,7 @@ namespace App\Repositories;
 use ActivismeBE\DatabaseLayering\Repositories\Contracts\RepositoryInterface;
 use ActivismeBE\DatabaseLayering\Repositories\Eloquent\Repository;
 use App\Helpdesk;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class HelpdeskRepository
@@ -21,5 +22,15 @@ class HelpdeskRepository extends Repository
     public function model()
     {
         return Helpdesk::class;
+    }
+
+    /**
+     * Return a model instance from the repository.
+     *
+     * @return Model
+     */
+    public function entity()
+    {
+        return $this->model;
     }
 }

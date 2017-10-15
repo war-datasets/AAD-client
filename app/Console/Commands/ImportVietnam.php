@@ -46,11 +46,9 @@ class ImportVietnam extends Command
      */
     public function handle()
     {
-        if ($this->confirm('Do you want to truncate the database table?')) {
-            DB::table('vietnam_casualties')->delete();
-            $this->info('[INFO]: The Table is empty now.');
-        }
+        DB::table('vietnam_casualties')->delete();
 
+        $this->info('[INFO]: The Table is empty now.');
         $this->info('[INFO]: Start migrating the data.');
 
         $this->vietnamCasualtyRepository->importData(
@@ -62,6 +60,9 @@ class ImportVietnam extends Command
         $this->info("[INFO]: Cleaning up data.");
 
         $this->vietnamCasualtyRepository->cleanUp('vietnam_casualties');
+
+        // TODO: Implement command to clean up the paygrades
+        // TODO: Implement command to clean up the military ranks
 
         $this->info("[INFO]: The cleanup is ready.");
     }

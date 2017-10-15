@@ -5,25 +5,27 @@
         <div class="row">
             <div class="col-md-12">
                 <form action="{{ route('casualties.search') }}" method="GET" class="form-inline">
-                    <input type="text" name="term" class="form-control" style="width: 25%" placeholder="Zoek bij naam.">
-                    <button class="btn btn-primary"><span class="fa fa-search" aria-hidden="true"></span> Zoek</button>
+                    <input type="text" name="term" class="form-control" style="width: 25%" placeholder="@lang('casualties.search')">
+                    <button class="btn btn-primary">
+                        <span class="fa fa-search" aria-hidden="true"></span> @lang('buttons.search')
+                    </button>
                 </form>
             </div>
 
             <div style="margin-top: 15px;" class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Er zijn {{ number_format((float) $count) }} slachtoffers in het systeem.
+                        @lang('casualties.panel-heading', ['number' => number_format((float) $count)])
                     </div>
                     <div class="panel-body">
                         <table class="table table-condensed table-hover table-bordered">
                             <thead>
                             <tr>
-                                <th>Dienstnummer:</th>
-                                <th>Naam:</th>
-                                <th>Geboortedatum:</th>
-                                <th>Datum overleden:</th>
-                                <th>Doodsoorzaak:</th>
+                                <th>@lang('casualties.service-no'):</th>
+                                <th>@lang('casualties.member-name'):</th>
+                                <th>@lang('casualties.birth-date'):</th>
+                                <th>@lang('casualties.death-date'):</th>
+                                <th>@lang('casualties.death-reason'):</th>
                             </tr>
                             </thead>
                             <tbody>

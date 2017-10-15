@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\KoreanCasualtyRepository;
+use App\Repositories\PayGradeRepository;
+use App\Repositories\ServiceRepository;
 use App\Repositories\VietnamCasualtyRepository;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -16,19 +18,25 @@ class CasualtyController extends Controller
 {
     private $koreanCasualtyRepository;  /** @var KoreanCasualtyRepository  */
     private $vietnamCasualtyRepository; /** @var VietnamCasualtyRepository */
+    private $serviceRepository;         /** @var ServiceRepository         */
+    private $payGradeRepository;        /** @var PayGradeRepository        */
 
     /**
      * CasualtyController constructor.
      *
      * @param  KoreanCasualtyRepository  $koreanCasualtyRepository
      * @param  VietnamCasualtyRepository $vietnamCasualtyRepository
+     * @param  ServiceRepository         $serviceRepository
      * @return void
      */
     public function __construct(
-        KoreanCasualtyRepository $koreanCasualtyRepository, VietnamCasualtyRepository $vietnamCasualtyRepository
+        KoreanCasualtyRepository $koreanCasualtyRepository, VietnamCasualtyRepository $vietnamCasualtyRepository,
+        ServiceRepository        $serviceRepository,        PayGradeRepository        $payGradeRepository
     ) {
         $this->vietnamCasualtyRepository = $vietnamCasualtyRepository;
         $this->koreanCasualtyRepository  = $koreanCasualtyRepository;
+        $this->serviceRepository         = $serviceRepository;
+        $this->payGradeRepository        = $payGradeRepository;
     }
 
     /**
@@ -74,7 +82,7 @@ class CasualtyController extends Controller
      * Get a specific vietnam casualty by his service number.
      *
      * @param  string $serviceNo The service number for the casualty.
-     * @return |Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showVietnam($serviceNo): View
     {
@@ -102,8 +110,32 @@ class CasualtyController extends Controller
         // Dataset is not vietnam. So display the results based on the korean dataset.
         return view('casualties.index', [
             'count'      => '',
-            'casualties' => '',
+            'casualties' => $this->koreanCasualtyRepository,
             'selector'   => '',
         ]);
     }
+
+    /**
+     * [SHARED]: The edit form for the casualty.
+     *
+     * @param  string $serviceNo The military service number from the victim.
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function edit($serviceNo)
+    {
+        $casualty  = $this->vietnamCasualtyRepository->findBy('service_no', $serviceNo);
+        $services  = $this->serviceRepository->all(['id', 'name', 'code']);
+        $payGrades = $this->payGradeRepository->all();
+
+        if (count($casualty) == 0) {
+            $casualty = $this->koreanCasualtyRepository->findBy('service_no', $serviceNo);
+
+            if (count($casualty) == 0) {
+                abort(404);
+            }
+        }
+
+        return view('casualties.edit', compact('casualty', 'services', 'payGrades'));
+    }
+
 }

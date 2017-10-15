@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BanUserValidator;
 use App\Repositories\UsersRepository;
+use App\Roles;
 use Carbon\Carbon;
 use Illuminate\Http\{RedirectResponse, Response};
 use Illuminate\View\View;
@@ -17,27 +18,34 @@ use Illuminate\View\View;
  */
 class UsersController extends Controller
 {
-    // TODO: Register routes for the controller functions.
-
-    /**
-     * The variable for the database abstraction layer.
-     *
-     * @var UsersRepository
-     */
-    private $usersRepository;
+    private $usersRepository;   /** @var UsersRepository $usersRepository */
+    private $roleDatabase;      /** @var Roles           $roleDatabase    */
 
     /**
      * UsersController constructor.
      *
-     * @param UsersRepository $usersRepository The abstraction layer for the user DB table.
+     * @param  UsersRepository $usersRepository The abstraction layer for the user DB table.
+     * @param  Roles           $roleDatabase    The database model for the user roles in the system.
+     * @return void
      */
-    public function __construct(UsersRepository $usersRepository)
+    public function __construct(UsersRepository $usersRepository, Roles $roleDatabase)
     {
         $this->middleware('auth');
         $this->middleware('role:admin')->except(['destroy']); // Allow normal users to use the destroy function.
         // $this->middleware('forbid-banned-user'); // TODO: Build up and register the middleware.
 
         $this->usersRepository = $usersRepository;
+        $this->roleDatabase    = $roleDatabase;
+    }
+
+    /**
+     * Create view for a new user in the system.
+     *
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function create(): View
+    {
+        return view('users.create', ['roles' => $this->roleDatabase->all(['id', 'name'])]);
     }
 
     /**
@@ -47,9 +55,7 @@ class UsersController extends Controller
      */
     public function index(): View
     {
-        return view('users.index', [
-            'users' => $this->usersRepository->all('name', 'email', 'created_at')
-        ]);
+        return view('users.index', ['users' => $this->usersRepository->paginate(30, ['*'])]);
     }
 
     /**

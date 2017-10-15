@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\HelpdeskValidator;
-use App\Repositories\{CategoryRepository, HelpdeskRepository};
+use App\Repositories\{CategoryRepository, HelpdeskRepository, StatusRepository, PriorityRepository};
 use App\Repositories\Criteria\{GetUserTickets, SearchHelpdesk};
 use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\View\View;
@@ -12,31 +12,42 @@ use Illuminate\View\View;
  * Class HelpdeskController
  *
  * @author  Tim Joosten <Topairy@gmail.com>
- * @license
+ * @license MIT LICENSE
  * @package App\Http\Controllers
  */
 class HelpdeskController extends Controller
 {
-    private $helpdeskRepository; /** HelpdeskRepository $helpdeskrepository */
-    private $categoryRepository; /** CategoryRepository $contactRepository  */
+    private $helpdeskRepository; /** @var HelpdeskRepository $helpdeskRepository */
+	private $categoryRepository; /** @var CategoryRepository $contactRepository  */
+	private $statusRepository;   /** @var StatusRepository   $statusRepository   */
+	private $priorityRepository; /** @var PriorityRepository $priorityRepository */
 
     /**
      * HelpdeskController constructor.
      *
      * @param  HelpdeskRepository $helpdeskRepository
      * @param  CategoryRepository $categoryRepository
+     * @param  StatusRepository   $statusRepository
+     * @param  PriorityRepository $priorityRepository
+     *
      * @return void
      */
-    public function __construct(HelpdeskRepository $helpdeskRepository, CategoryRepository $categoryRepository)
-    {
+    public function __construct(
+        HelpdeskRepository $helpdeskRepository,
+		CategoryRepository $categoryRepository,
+		StatusRepository   $statusRepository,
+		PriorityRepository $priorityRepository
+    ) {
         $routes = ['create', 'store', 'ticketsUser'];
 
         $this->middleware('auth')->except($routes);
         $this->middleware('role:admin')->except($routes);
-        // $this->middleware('forbid-banned-user')->except($route);
+        // $this->middleware('forbid-banned-user')->except($route); // TODO: build up and register the middleware.
 
         $this->helpdeskRepository = $helpdeskRepository;
-        $this->categoryRepository = $categoryRepository;
+		$this->categoryRepository = $categoryRepository;
+		$this->statusRepository   = $statusRepository;
+		$this->priorityRepository = $priorityRepository;
     }
 
     /**
@@ -46,9 +57,7 @@ class HelpdeskController extends Controller
      */
     public function index(): View
     {
-        return view('helpdesk.index', [
-            'tickets' => $this->helpdeskRepository->paginate(20)
-        ]);
+        return view('helpdesk.index', ['tickets' => $this->helpdeskRepository->paginate(20)]);
     }
 
     /**
@@ -59,10 +68,7 @@ class HelpdeskController extends Controller
     public function search(Request $input): View
     {
         $this->helpdeskRepository->pushCriteria(new SearchHelpdesk($input->get('term')));
-
-        return view('helpdesk.index', [
-            'tickets' => $this->helpdeskRepository->paginate(20)
-        ]);
+        return view('helpdesk.search', ['tickets' => $this->helpdeskRepository->paginate(20)]);
     }
 
     /**
@@ -72,7 +78,8 @@ class HelpdeskController extends Controller
      */
     public function create(): View
     {
-        return view('helpdesk.create', [
+        return view('helpdesk.index', [
+            'tickets'    => $this->helpdeskRepository->entity()->where('author_id', auth()->user()->id)->paginate(20),
             'categories' => $this->categoryRepository->findWhere(['module' => 'helpdesk'], ['id', 'name'])
         ]);
     }
@@ -96,7 +103,7 @@ class HelpdeskController extends Controller
     }
 
     /**
-     * Delete a helpdesk ticket out off the database.
+     * Delete a helpdesk ticket in the system.
      *
      * @param  integer $helpdeskId The pimary key for the database table.
      * @return RedirectResponse
@@ -121,24 +128,17 @@ class HelpdeskController extends Controller
      */
     public function store(HelpdeskValidator $input): RedirectResponse
     {
-        if ($this->helpdeskRepository->create($input->except['_token'])) {
+        $input->merge([
+			// TODO: implementatie:  priority, status
+			'author_id' => auth()->user()->id
+			//! 'priority'  => $this->priorityRepository->
+			//! 'status'    => $this->statusRepository->
+		]);
+
+        if ($this->helpdeskRepository->create($input->except(['_token']))) {
             flash(trans('flash-messages.helpdesk-store'))->success();
         }
 
         return back(302);
-    }
-
-    /**
-     * Get the tickets for the currently authencated user.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function ticketsUser(): View
-    {
-        $this->helpdeskRepository->pushCriteria(new GetUserTickets(auth()->user()->id));
-
-        return view('helpdesk.index', [
-            'tickets' => $this->helpdeskRepository->paginate(20)
-        ]);
     }
 }
